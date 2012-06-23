@@ -46,7 +46,7 @@ public class Util
     {
 	final int[] rcc = new int[string.length()];
 	int ptr = 0;
-	    
+	
 	for (int i = 0, n = string.length(); i < n; i++)
 	{
 	    final char c = string.charAt(i);

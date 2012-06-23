@@ -117,8 +117,8 @@ public class Parser
 	tree.parse(text, 0);
 	return tree;
     }
-	
-	
+    
+    
     /**
      * Tests whether the data can pass a stored data chunk
      * 
@@ -158,7 +158,7 @@ public class Parser
     {
 	final boolean[] preset = new boolean[256];
 	final HashSet<Integer> set = new HashSet<Integer>();
-	    
+	
 	outer:
 	    for (int j = start; j < end; j++)
 		if (data[j] == replacee[0]) //yes, this not that effecive, but who cares, compiling code should take hours
@@ -166,11 +166,11 @@ public class Parser
 		    final int n = replacee.length;
 		    if (j + n < data.length)
 			break;
-			
+		    
 		    for (int i = 0; i < n; i++)
 			if (data[j + i] != replacee[i])
 			    continue outer;
-			
+		    
 		    preset[j] = true;
 		    set.add(Integer.valueOf(j));
 		    j += replacee.length;
@@ -181,7 +181,7 @@ public class Parser
 	{
 	    if (i >= n)
 		return -1;
-		
+	    
 	    if (preset[j & 255] && set.contains(new Integer(j)))
 	    {
 		for (int k = 0, m = replacer.length; k < m; k++, i++)
@@ -211,20 +211,20 @@ public class Parser
     {
 	if (def == null)
 	    return 0;
-	    
+	
 	if (def instanceof JCBNFString)
 	{
 	    final int[] grammar = ((JCBNFString)def).string;
 	    final int n = grammar.length;
 	    final int m = data.length;
-		
+	    
 	    if (off + n >= m)
 		return -1;
-		
+	    
 	    for (int i = 0; i < n; i++)
 		if (data[i + off] != grammar[i])
 		    return -1;
-		
+	    
 	    return m;
 	}
 	if (def instanceof JCBNFWordString)
@@ -232,26 +232,26 @@ public class Parser
 	    final int[] grammar = ((JCBNFWordString)def).string;
 	    final int n = data.length;
 	    final int m = grammar.length;
-		
+	    
 	    if (off + n >= m)
 		return -1;
-		
+	    
 	    int prev = off == 0 ? -1 : data[off - 1];
 	    int next = off == n ? -1 : data[off];
-		
+	    
 	    if (JCBNFCheck.w.check(prev, next) == false)
 		return -1;
-		
+	    
 	    for (int i = 0; i < n; i++)
 		if (data[i + off] != grammar[i])
 		    return -1;
-		
+	    
 	    prev = off + m == 0 ? -1 : data[off + m - 1];
 	    next = off + m == n ? -1 : data[off + m];
-		
+	    
 	    if (JCBNFCheck.w.check(prev, next) == false)
 		return -1;
-		
+	    
 	    return m;
 	}
 	if (def instanceof JCBNFPartialString)
@@ -259,21 +259,21 @@ public class Parser
 	    final int[] grammar = ((JCBNFPartialString)def).string;
 	    final int n = grammar.length;
 	    final int m = data.length;
-		
+	    
 	    if (n == 0)
 		return 0;
-		
+	    
 	    if ((off == m) || (data[off] != grammar[0]))
 		return -1;
-		
+	    
 	    for (int i = 1; i < n; i++)
 		if ((i + off == m) || (data[i + off] != grammar[i]))
 		    return i;
-		
+	    
 	    return n;
 	}
 	if (def instanceof JCBNFCharacters)
-	{
+        {
 	    final JCBNFCharacters grammar = (JCBNFCharacters)def;
 	    final int n = data.length;
 	    

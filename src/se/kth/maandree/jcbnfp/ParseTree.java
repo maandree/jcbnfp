@@ -61,29 +61,29 @@ public class ParseTree
      * The parent node, <code>null</code> if none
      */
     public final ParseTree parent;
-	
+    
     /**
      * The current definition, includes name, grammar &amp;c
      */
     public final Definition definition;
-	
+    
     /**
      * The node's children
      */
     public final ArrayList<ParseTree> children = new ArrayList<ParseTree>();
-	
+    
     /**
      * The subtree's named capture storage, may be <code>null</code>
      */
     public HashMap<String, ArrayList<int[]>> storage = null;
-	
+    
     /**
      * Definition map
      */
     public final HashMap<String, Definition> definitions;
-	
-	
-	
+    
+    
+    
     /**
      * Return data class for some parsing methods
      * 
@@ -92,26 +92,26 @@ public class ParseTree
     static class Return
     {
 	//Has default constructor
-	    
-	    
-	    
+	
+	
+	
 	/**
 	 * The subtree's named capture storage, may be <code>null</code>
 	 */
 	public HashMap<String, ArrayList<int[]>> storage = null;
-	    
+	
 	/**
 	 * The number of read elements in the named capture storage for a given name
 	 */
 	public final HashMap<String, int[]> storageRead = new HashMap<String, int[]>();
-	    
+	
 	/**
 	 * The amount of read data
 	 */
 	public int read = 0;
-	    
-	    
-	    
+	
+	
+	
 	/**
 	 * Concatenates data from another instance
 	 * 
@@ -122,7 +122,7 @@ public class ParseTree
 	    {
 		HashMap<String, ArrayList<int[]>> xx = this.storage;
 		final HashMap<String, ArrayList<int[]>> xy = obj.storage;
-		    
+		
 		if (xx == null)
 		    this.storage = xy;
 		else
@@ -141,13 +141,13 @@ public class ParseTree
 	    {
 		final HashMap<String, int[]> xx = this.storageRead;
 		final HashMap<String, int[]> xy = obj.storageRead;
-		    
+		
 		for (final Map.Entry<String, int[]> entry : xy.entrySet())
 		{
 		    final String key = entry.getKey();
 		    final int[] value = entry.getValue();
 		    final int[] v;
-			
+		    
 		    if ((v = xx.get(key)) != null)
 			v[0] += value[0];
 		    else
@@ -156,9 +156,9 @@ public class ParseTree
 	    }
 	}
     }
-	
-	
-	
+    
+    
+    
     /**
      * Parses the tree and stores all data
      * 
@@ -176,8 +176,8 @@ public class ParseTree
 	this.storage = r.storage;
 	return r == null ? -1 : r.read;
     }
-	
-	
+    
+    
     /**
      * Find a named capture
      * 
@@ -197,14 +197,14 @@ public class ParseTree
 	{
 	    if (tree == null)
 		return null;
-		
+	    
 	    final HashMap<String, ArrayList<int[]>> s = this.storage;
 	    if (s == null)
 	    {
 		tree = tree.parent;
 		break;
 	    }
-		
+	    
 	    final ArrayList<int[]> a = s.get(name);
 	    if (a == null)
 	    {
@@ -237,32 +237,32 @@ public class ParseTree
 	Return rc = new Return();
 	final GrammarElement grammar = assemble(def);
 	final int atom = Parser.passes(data, off, grammar);
-	    
+	
 	if (atom == -1) rc.read = -1;
 	if (atom >= 0)  rc.read = off + atom;
 	if (atom >= -1)
 	    return rc;
-	    
+	
 	if (grammar instanceof JCBNFBacktrack)
 	{
 	    final String name = ((JCBNFBacktrack)grammar).name;
 	    final int[] start_end = backtrack(name, storages, storagePtr, reads, readPtr, elementalState);
 	    if (start_end == null)
 		return null;
-		
+	    
 	    final int start = start_end[0];
 	    final int end = start_end[1];
-		
+	    
 	    if (((JCBNFBacktrack)grammar).replacee != null)
 		rc.read = Parser.passes(data, off, start, end);
 	    else
 	    {
 		final int[] replacee = Util.stringToIntArray(((JCBNFBacktrack)grammar).replacee);
 		final int[] replacer = Util.stringToIntArray(((JCBNFBacktrack)grammar).replacer);
-		    
+		
 		rc.read = Parser.passes(data, off, start, end, replacee, replacer);
 	    }
-		
+	    
 	    return rc.read < 0 ? null : rc;
 	}
 	if (grammar instanceof JCBNFStore)
@@ -272,10 +272,10 @@ public class ParseTree
 	    final Return r = parse(data, off, g, storages, storagePtr, reads, readPtr, elementalState);
 	    if (r.read < 0)
 		return null;
-		
+	    
 	    if (r.storage == null)
 		r.storage = new HashMap<String, ArrayList<int[]>>();
-		
+	    
 	    ArrayList<int[]> list = r.storage.get(name);
 	    if (list == null)
 		r.storage.put(name, list = new ArrayList<int[]>());
@@ -300,11 +300,11 @@ public class ParseTree
 		nstorages = nnstorages;
 	    }
 	    nstorages[storagePtr] = null;
-		
+	    
 	    int es = elementalState;
 	    es |= min == 0 ? OPTION : 0;
 	    es |= max != 1 ? REPEAT : 0;
-		
+	    
 	    int offset = off;
 	    for (int i = 0; i < min; i++)
 	    {
@@ -326,7 +326,7 @@ public class ParseTree
 		if (nstorages[storagePtr] == null)
 		    nstorages[storagePtr] = rc.storage;
 	    }
-		
+	    
 	    rc.read = offset - off;
 	    return rc;
 	}
@@ -362,13 +362,13 @@ public class ParseTree
 	if (grammar instanceof JCBNFAlternation)
 	{
 	    for (final GrammarElement g : ((JCBNFAlternation)grammar).elements)
-		{
-		    rc = parse(data, off, g, storages, storagePtr, reads, readPtr, elementalState);
-		    if (rc.read >= 0)
-			break;
-		    rc = null;
-		}
-		
+	    {
+		rc = parse(data, off, g, storages, storagePtr, reads, readPtr, elementalState);
+		if (rc.read >= 0)
+		    break;
+		rc = null;
+	    }
+	    
 	    return rc;
 	}
 	if (grammar instanceof JCBNFDefinition)
@@ -397,7 +397,7 @@ public class ParseTree
     private GrammarElement assemble(final GrammarElement element)
     {
 	GrammarElement elem = element;
-	    
+	
 	while (elem != null)
 	    if (elem instanceof JCBNFGroup)
 		elem = ((JCBNFGroup)elem).element;
@@ -434,7 +434,7 @@ public class ParseTree
 		    elem = ((JCBNFAlternation)elem).elements.get(0);
 		else
 		    elem = null;
-	    
+	
 	return elem;
     }
     
