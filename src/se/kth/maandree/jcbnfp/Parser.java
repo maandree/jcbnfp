@@ -296,5 +296,58 @@ public class Parser
 	return -2;
     }
     
+    
+    /**
+     * Simplifies a grammar node so that only bounded repeat (without option),
+     * juxtaposition, alternation, store and backtracks (with and without replacements)
+     * as well as atoms are used.
+     * 
+     * @param   element  The grammar element
+     * @return           The grammar element simplified
+     */
+    static GrammarElement assemble(final GrammarElement element)
+    {
+	GrammarElement elem = element;
+	
+	while (elem != null)
+	    if (elem instanceof JCBNFGroup)
+		elem = ((JCBNFGroup)elem).element;
+	    else if (elem instanceof JCBNFOption)
+	    {
+		final JCBNFBoundedRepeation bndrep = new JCBNFBoundedRepeation(0, 1);
+		bndrep.element = elem;
+		elem = bndrep;
+	    }
+	    else if (elem instanceof JCBNFRepeation)
+	    {
+		final JCBNFBoundedRepeation bndrep = new JCBNFBoundedRepeation(1, -1);
+		bndrep.element = elem;
+		elem = bndrep;
+	    }
+	    else if ((elem instanceof JCBNFBoundedRepeation) && (((JCBNFBoundedRepeation)elem).option != null))
+	    {
+		final JCBNFBoundedRepeation e = (JCBNFBoundedRepeation)elem;
+		final JCBNFJuxtaposition juxta = new JCBNFJuxtaposition();
+		final JCBNFBoundedRepeation opt = new JCBNFBoundedRepeation(0, -1);
+		opt.element = e.option;
+		e.option = null;
+		juxta.elements.add(opt);
+		juxta.elements.add(e.element);
+		e.element = juxta;
+	    }
+	    else if ((elem instanceof JCBNFJuxtaposition) && (((JCBNFJuxtaposition)elem).elements.size() <= 1))
+		if (((JCBNFJuxtaposition)elem).elements.size() == 1)
+		    elem = ((JCBNFJuxtaposition)elem).elements.get(0);
+		else
+		    elem = null;
+	    else if ((elem instanceof JCBNFAlternation) && (((JCBNFAlternation)elem).elements.size() <= 1))
+		if (((JCBNFAlternation)elem).elements.size() == 1)
+		    elem = ((JCBNFAlternation)elem).elements.get(0);
+		else
+		    elem = null;
+	
+	return elem;
+    }
+    
 }
 
