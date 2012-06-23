@@ -1,5 +1,5 @@
 main    ::= line [lines]
-N       ::= (\r \n) | \n | \r | \f
+N       ::= \n | (\r \n) | \r | \f
 lines   ::= {N line}
 line    ::= [content]
 content ::= {char}
