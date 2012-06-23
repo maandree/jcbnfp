@@ -32,7 +32,7 @@ public abstract class JCBNFCharacters implements GrammarElement
     /**
      * All exception to the sets definition
      */
-    public final ArrayList<JCBNFCharacters> exceptions = new ArrayList<JCBNFCharacters>();
+    public final Vector<JCBNFCharacters> exceptions = new Vector<JCBNFCharacters>();
     
     
     

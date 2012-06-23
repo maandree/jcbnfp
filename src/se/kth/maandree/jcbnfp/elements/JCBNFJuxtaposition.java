@@ -36,7 +36,7 @@ public class JCBNFJuxtaposition implements GrammarElement
     /**
      * The elements
      */
-    public final ArrayList<GrammarElement> elements = new ArrayList<GrammarElement>();
+    public final Vector<GrammarElement> elements = new Vector<GrammarElement>();
     
     
     
