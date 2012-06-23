@@ -51,17 +51,17 @@ public abstract class JCBNFCharacters implements GrammarElement
     }
     
         
-	/**
-	 * Prints out the element
-	 * 
-	 * @param  indent  The current indent
-	 */
-	@Override
-	public void printGrammar(final String indent)
-	{
-	    for (final JCBNFCharacters exception : this.exceptions)
-		exception.printGrammar(indent + "  ");
-	}
+    /**
+     * Prints out the element
+     * 
+     * @param  indent  The current indent
+     */
+    @Override
+    public void printGrammar(final String indent)
+    {
+	for (final JCBNFCharacters exception : this.exceptions)
+	    exception.printGrammar(indent + "  ");
+    }
     
     
     
@@ -545,7 +545,9 @@ public abstract class JCBNFCharacters implements GrammarElement
 	    System.out.print(indent + '\'');
 	    try
 	    {
-		System.out.write(Escaper.escape(new int[] {this.min, '\'', '.', '.', '\'', this.max}));
+		System.out.write(Escaper.escape(this.min));
+		System.out.print("'..'");
+		System.out.write(Escaper.escape(this.max));
 	    }
 	    catch (final Throwable err)
 	    {

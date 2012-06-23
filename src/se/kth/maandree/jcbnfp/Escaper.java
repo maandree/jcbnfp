@@ -67,7 +67,7 @@ public class Escaper
 	return new String(cs, 0, ptr);
     }
     
-    public static byte[] escape(final int[] plain)
+    public static byte[] escape(final int... plain)
     {
 	final int[] buf = new int[6];
 	byte[] prc = new byte[plain.length << 2];
