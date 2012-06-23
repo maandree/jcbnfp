@@ -1,8 +1,5 @@
 #!/bin/sh
 
-## completion
-. run.sh --completion--
-
 
 ## create directory for Java binaries
 mkdir bin 2>/dev/null

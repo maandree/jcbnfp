@@ -26,52 +26,5 @@ if [ -d lib ]; then
 fi
 
 
-## default runs
-runs=''
-if [[ $hasMain = 1 ]]; then
-    runs+='main main-da'
-    if [[ $hasHome = 1 ]]; then
-	runs+='falsehome'
-    fi
-fi
-
-## custom runs
-runs+=''
-
-
-## default run
-if [[ $# = 0 ]]; then
-    javaSeven -ea -cp bin$jars "$package".Program
-
-
-## custom runs
-
-elif [[ $hasMain  &&  $1 = "main" ]]; then
-    javaSeven -ea -cp bin$jars "$package".Program
-
-elif [[ $hasMain  &&  $1 = "main-da" ]]; then
-    javaSeven -da -cp bin$jars "$package".Program
-    
-elif [[ $hasMain  &&  $hasHome  &&  $1 = "falsehome" ]]; then
-    __myhome=$HOME
-    HOME='/dev/shm'
-    javaSeven -ea -cp bin$jars "$package".Program
-    HOME=$__myhome
-
-
-## completion
-elif [[ $1 = "--completion--" ]]; then
-    _run()
-    {
-	local cur prev words cword
-	_init_completion -n = || return
-	
-	COMPREPLY=( $( compgen -W "$runs" -- "$cur" ) )
-    }
-    
-    complete -o default -F _run run
-
-## missing rule
-else
-    echo "run: Rule missing.  Stop." >&2
-fi
+## run
+javaSeven -ea -cp bin$jars "$package".Program "$@"
