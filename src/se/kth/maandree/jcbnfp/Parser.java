@@ -700,12 +700,12 @@ public class Parser
 	
 	for (int d; (d = is.read()) != -1;)
 	{
-	    if (d < 128)
+	    if (d < 0x80)
 		buf[ptr++] = d;
-	    else if ((d & 192) != 128)
+	    else if ((d & 0xC0) != 0x80)
 	    {
 		int n = 0;
-		while ((d & 128) != 0)
+		while ((d & 0x80) != 0)
 		{
 		    n++;
 		    d <<= 1;
@@ -714,7 +714,7 @@ public class Parser
 		for (int i = 0; i < n; i++)
 		{
 		    final int v = is.read();
-		    if ((v & 192) != 128)
+		    if ((v & 0xC0) != x80)
 			break;
 		    d = (d << 6) | (d & 0x3F);
 		}
