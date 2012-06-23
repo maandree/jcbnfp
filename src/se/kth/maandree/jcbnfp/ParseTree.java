@@ -320,7 +320,6 @@ public class ParseTree
 	    rc.read = child.parse(data, off);
 	    if (rc.read < 0)
 		return null;
-	    System.out.println(rc.read);
 	    this.children.add(child);
 	    return rc;
 	}
