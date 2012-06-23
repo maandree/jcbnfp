@@ -54,6 +54,8 @@ public class Program
 	InputStream gis = null, fis = null;
 	try
 	{
+	    System.out.println("--- Parsing Syntax ---");
+	    
 	    gis = new BufferedInputStream(new FileInputStream(new File(jcbnfFile)));
 	    final HashMap<String, Definition> defs = GrammarParser.parseGrammar(gis);
 	    for (final Definition def : defs.values())
@@ -63,9 +65,7 @@ public class Program
 		System.out.println();
 	    }
 	    
-	    
-	    System.out.println("--- Parsing ---");
-	    
+	    System.out.println("--- Parsing code ---");
 	    
 	    final Parser parser = new Parser(defs, main);
 	    fis = new BufferedInputStream(new FileInputStream(new File(parseFile)));

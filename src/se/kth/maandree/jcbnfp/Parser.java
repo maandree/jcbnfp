@@ -315,13 +315,13 @@ public class Parser
 	    else if (elem instanceof JCBNFOption)
 	    {
 		final JCBNFBoundedRepeation bndrep = new JCBNFBoundedRepeation(0, 1);
-		bndrep.element = elem;
+		bndrep.element = ((JCBNFOption)elem).element;
 		elem = bndrep;
 	    }
 	    else if (elem instanceof JCBNFRepeation)
 	    {
 		final JCBNFBoundedRepeation bndrep = new JCBNFBoundedRepeation(1, -1);
-		bndrep.element = elem;
+		bndrep.element = ((JCBNFRepeation)elem).element;
 		elem = bndrep;
 	    }
 	    else if ((elem instanceof JCBNFBoundedRepeation) && (((JCBNFBoundedRepeation)elem).option != null))

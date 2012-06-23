@@ -100,7 +100,7 @@ public class ParseTree
 	final HashMap<String, int[]>[] reads = (HashMap<String, int[]>[])(new HashMap[32]);
 	
 	final ParseReturn r = parse(data, off, this.definition.definition, storages, 0, reads, 0, (byte)0);
-	this.storage = r.storage;
+	this.storage = r == null ? null : r.storage;
 	return r == null ? -1 : r.read;
     }
     
@@ -198,7 +198,7 @@ public class ParseTree
 	    final String name = ((JCBNFStore)grammar).name;
 	    final GrammarElement g = ((JCBNFStore)grammar).element;
 	    final ParseReturn r = parse(data, off, g, storages, storagePtr, reads, readPtr, elementalState);
-	    if (r.read < 0)
+	    if ((r == null) || (r.read < 0))
 		return null;
 	    
 	    if (r.storage == null)
@@ -236,7 +236,7 @@ public class ParseTree
 	    for (int i = 0; i < min; i++)
 	    {
 		r = parse(data, offset, g, nstorages, storagePtr + 1, reads, readPtr, (byte)es);
-		if (r.read < 0)
+		if ((r == null) || (r.read < 0))
 		    return null;
 		offset += r.read;
 		rc.cat(r);
@@ -246,7 +246,7 @@ public class ParseTree
 	    for (int i = min; i != max; i++) //infinity is -1, so 'i < max' would fail
 	    {
 		r = parse(data, offset, g, nstorages, storagePtr + 1, reads, readPtr, (byte)es);
-		if (r.read < 0)
+		if ((r == null) || (r.read < 0))
 		    break;
 		offset += r.read;
 		rc.cat(r);
@@ -275,7 +275,7 @@ public class ParseTree
 	    for (final GrammarElement g : ((JCBNFJuxtaposition)grammar).elements)
 	    {
 		r = parse(data, offset, g, nstorages, storagePtr + 1, reads, readPtr, elementalState);
-		if (r.read < 0)
+		if ((r == null) || (r.read < 0))
 		    return null;
 		offset += r.read;
 		rc.cat(r);
@@ -291,7 +291,7 @@ public class ParseTree
 	    for (final GrammarElement g : ((JCBNFAlternation)grammar).elements)
 	    {
 		rc = parse(data, off, g, storages, storagePtr, reads, readPtr, elementalState);
-		if (rc.read >= 0)
+		if ((rc == null) || (rc.read >= 0))
 		    break;
 		rc = null;
 	    }
