@@ -198,8 +198,8 @@ public class Parser
 	    @SuppressWarnings({"rawtypes", "unchecked"})
 	    final HashMap<String, ArrayList<int[]>>[] storages = (HashMap<String, ArrayList<int[]>>[])(new HashMap[32]);
 	    @SuppressWarnings({"rawtypes", "unchecked"})
-	    final HashMap<String, ArrayList<int[]>>[] reads = (HashMap<String, ArrayList<int[]>>[])(new HashMap[32]);
-	    final Return r = parse(data, off, this.definition.definition, storages, 0, reads, 0, 0);
+	    final HashMap<String, int[]>[] reads = (HashMap<String, int[]>[])(new HashMap[32]);
+	    final Return r = parse(data, off, this.definition.definition, storages, 0, reads, 0, (byte)0);
 	    this.storage = r.storage;
 	    return r == null ? -1 : r.read;
 	}
@@ -333,7 +333,7 @@ public class Parser
 		int offset = off;
 		for (int i = 0; i < min; i++)
 		{
-		    r = parse(data, offset, g, nstorages, storagePtr + 1, es);
+		    r = parse(data, offset, g, nstorages, storagePtr + 1, reads, readPtr, (byte)es);
 		    if (r.read < 0)
 			return null;
 		    offset += r.read;
@@ -343,7 +343,7 @@ public class Parser
 		}
 		for (int i = min; i != max; i++) //infinity is -1, so 'i < max' would fail
 		{
-		    r = parse(data, offset, g, nstorages, storagePtr + 1, es);
+		    r = parse(data, offset, g, nstorages, storagePtr + 1, reads, readPtr, (byte)es);
 		    if (r.read < 0)
 			break;
 		    offset += r.read;
@@ -372,7 +372,7 @@ public class Parser
 		
 		for (final GrammarElement g : ((JCBNFJuxtaposition)grammar).elements)
 		{
-		    r = parse(data, offset, g, nstorages, storagePtr + 1, elementalState);
+		    r = parse(data, offset, g, nstorages, storagePtr + 1, reads, readPtr, elementalState);
 		    if (r.read < 0)
 			return null;
 		    offset += r.read;
@@ -399,7 +399,7 @@ public class Parser
 	    if (grammar instanceof JCBNFDefinition)
 	    {
 		final String name = ((JCBNFDefinition)grammar).name;
-		final ParseTree child = new ParseTree(this, parser.this.definitions.get(name));
+		final ParseTree child = new ParseTree(this, Parser.this.definitions.get(name));
 		this.children.add(child);
 		final int r = child.parse(data, off);
 		rc.read = r;
@@ -559,7 +559,8 @@ public class Parser
 			j += replacee.length;
 		    }
 	    
-	    for (int i = off, j = start, n = data.length; j < end; i++, j++)
+	    int j = start;
+	    for (int i = off, n = data.length; j < end; i++, j++)
 	    {
 		if (i >= n)
 		    return -1;
@@ -576,7 +577,7 @@ public class Parser
 		    return -1;
 	    }
 	    
-	    return n;
+	    return j - start;
 	}
 	
 	
@@ -738,7 +739,7 @@ public class Parser
 	
 	final Definition root = this.definitions.get(this.main);
 	final ParseTree tree = new ParseTree(null, root);
-	tree.parse(text);
+	tree.parse(text, 0);
 	return tree;
     }
     
