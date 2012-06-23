@@ -54,22 +54,26 @@ public class Program
 	InputStream gis = null, fis = null;
 	try
 	{
-	    System.out.println("--- Parsing Syntax ---");
+	    System.out.println("--- Parsing Syntax ---\n\n");
 	    
 	    gis = new BufferedInputStream(new FileInputStream(new File(jcbnfFile)));
 	    final HashMap<String, Definition> defs = GrammarParser.parseGrammar(gis);
 	    for (final Definition def : defs.values())
 	    {
 		printGrammar(def);
-		System.out.println();
-		System.out.println();
+		System.out.println("\n");
 	    }
 	    
-	    System.out.println("--- Parsing code ---");
+	    System.out.println("--- Parsing code ---\n\n");
 	    
 	    final Parser parser = new Parser(defs, main);
 	    fis = new BufferedInputStream(new FileInputStream(new File(parseFile)));
-	    parser.parse(fis);
+	    final ParseTree tree = parser.parse(fis);
+	    System.out.println("\n");
+	    
+	    System.out.println("--- Parsed code ---\n\n");
+	    printTree(tree);
+	    System.out.println("\n");
 	}
 	catch (final SyntaxFileError err)
 	{
@@ -106,6 +110,47 @@ public class Program
 	}
     }
     
+    
+    /**
+     * Prints out a parsed tree
+     * 
+     * @param  tree  The tree
+     */
+    public static void printTree(final ParseTree tree)
+    {
+	final ArrayDeque<ParseTree> nodes = new ArrayDeque<ParseTree>();
+	final ArrayDeque<String> indents = new ArrayDeque<String>();
+	
+	nodes.add(tree);
+	indents.add("");
+	
+	ParseTree node;
+	while ((node = nodes.pollLast()) != null)
+	{
+	    String indent = indents.pollLast();
+	    
+	    System.out.print(indent);
+	    System.out.print(node.definition.definition);
+	    System.out.print(" :: (");
+	    System.out.print(node.intervalStart);
+	    System.out.print(", ");
+	    System.out.print(node.intervalEnd - node.intervalStart);
+	    System.out.print(", ");
+	    System.out.print(node.intervalEnd);
+	    System.out.println(")\033[35m");
+	    System.out.println(indent + "(:: " + node.definition.name + " ::)");
+	    node.definition.definition.printGrammar(indent + "::= ");
+	    System.out.print("\033[39m");
+	    
+	    indent += "    ";
+	    
+	    for (int i = node.children.size() - 1; i >= 0; i--)
+	    {
+		nodes.offerLast(node.children.get(i));
+		indents.offerLast(indent);
+	    }
+	}
+    }
     
     
     /**

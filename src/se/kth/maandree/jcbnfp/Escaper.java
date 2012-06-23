@@ -77,6 +77,22 @@ public class Escaper
     /**
      * Escapes special characters in a string so it may be viewed better
      * 
+     * @param   off    The offset of {@code plain}'s actual content
+     * @param   len    The length of {@code plain}'s actual content
+     * @param   plain  The string to escape
+     * @return         The string escaped
+     */
+    public static byte[] escape(final int off, final int len, final int[] plain)
+    {
+	final int[] data = new int[len];
+	System.arraycopy(plain, off, data, 0, len);
+	return escape(data);
+    }
+    
+    
+    /**
+     * Escapes special characters in a string so it may be viewed better
+     * 
      * @param   plain  The string to escape
      * @return         The string escaped
      */

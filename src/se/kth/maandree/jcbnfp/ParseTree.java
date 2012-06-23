@@ -75,12 +75,22 @@ public class ParseTree
     /**
      * The subtree's named capture storage, may be <code>null</code>
      */
-    protected HashMap<String, ArrayDeque<int[]>> storage = null;
+    public HashMap<String, ArrayDeque<int[]>> storage = null;
     
     /**
      * Definition map
      */
     protected final HashMap<String, Definition> definitions;
+    
+    /**
+     * The beginning (inclusive) of the data that this node spans
+     */
+    public int intervalStart;
+    
+    /**
+     * The end (exclusive) of the data that this node spans
+     */
+    public int intervalEnd;
     
     
     
@@ -101,7 +111,12 @@ public class ParseTree
 	
 	final ParseReturn r = parse(data, off, this.definition.definition, storages, 0, reads, 0, (byte)0);
 	this.storage = r == null ? null : r.storage;
-	return r == null ? -1 : r.read;
+	int rc = r == null ? -1 : r.read;
+	
+	this.intervalStart = off;
+	this.intervalEnd = rc <= 0 ? off : (off + rc);
+	
+	return rc;
     }
     
     
@@ -212,7 +227,7 @@ public class ParseTree
 	                                                      // rather than parsed (complete) order; however storing effected by
 	    return r;                                         // this choice [for example <a=x <a=y> z>] is strongly disencouraged.
 	}
-	if (grammar instanceof JCBNFBoundedRepeation) //TODO ###################################################################################### reads
+	if (grammar instanceof JCBNFBoundedRepeation)
 	{
 	    ParseReturn r;
 	    final int min = ((JCBNFBoundedRepeation)grammar).minCount;
@@ -257,7 +272,7 @@ public class ParseTree
 	    rc.read = offset - off;
 	    return rc;
 	}
-	if (grammar instanceof JCBNFJuxtaposition) //TODO ###################################################################################### reads
+	if (grammar instanceof JCBNFJuxtaposition)
 	{
 	    ParseReturn r;
 	    int offset = off;
