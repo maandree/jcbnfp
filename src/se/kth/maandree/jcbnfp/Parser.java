@@ -17,7 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 package se.kth.maandree.jcbnfp;
-import se.kth.maandree.jcbnfp.elements.*;
 
 import java.util.*;
 import java.io.*;

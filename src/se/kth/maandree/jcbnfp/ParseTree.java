@@ -168,7 +168,7 @@ public class ParseTree
      */
     public int parse(final int[] data, final int off)
     {
-	@SuppressWarnings({"all", "unchecked", "rawtypes"}) // ecj finds [unchcked], openjdk finds [rawtypes] as well, [all] removed warning about "rawtypes" in ecj
+	@SuppressWarnings({"all", "unchecked", "rawtypes"}) // ecj finds [unchecked], openjdk finds [rawtypes] as well, [all] removed warning about "rawtypes" in ecj
 	final HashMap<String, ArrayList<int[]>>[] storages = (HashMap<String, ArrayList<int[]>>[])(new HashMap[32]);
 	@SuppressWarnings({"all", "unchecked", "rawtypes"})
 	final HashMap<String, int[]>[] reads = (HashMap<String, int[]>[])(new HashMap[32]);
@@ -257,8 +257,8 @@ public class ParseTree
 		rc.read = passes(data, off, start, end);
 	    else
 	    {
-		final int[] replacee = stringToIntArray(((JCBNFBacktrack)grammar).replacee);
-		final int[] replacer = stringToIntArray(((JCBNFBacktrack)grammar).replacer);
+		final int[] replacee = Util.stringToIntArray(((JCBNFBacktrack)grammar).replacee);
+		final int[] replacer = Util.stringToIntArray(((JCBNFBacktrack)grammar).replacer);
 		    
 		rc.read = passes(data, off, start, end, replacee, replacer);
 	    }
@@ -383,44 +383,6 @@ public class ParseTree
 	
 	assert false : "Unrecognised grammar used!";
 	return null;
-    }
-    
-    
-    /**
-     * Creates an UTF-32 integer array from an UTF-16 string
-     * 
-     * @param   The string
-     * @return  The integer array
-     */
-    private int[] stringToIntArray(final String string)
-    {
-	final int[] rcc = new int[string.length()];
-	int ptr = 0;
-	    
-	for (int i = 0, n = string.length(); i < n; i++)
-	{
-	    final char c = string.charAt(i);
-	    if ((0xD800 <= c) && (c < 0xDC00))
-	    {
-		final char cc = string.charAt(++i);
-		final int hi = c  & 0x3FF;
-		final int lo = cc & 0x3FF;
-		rcc[ptr++] = ((hi << 10) | lo) + 0x10000;
-	    }
-	    else if ((0xDC00 <= c) && (c < 0xE000))
-	    {
-		final char cc = string.charAt(++i);
-		final int lo = c  & 0x3FF;
-		final int hi = cc & 0x3FF;
-		rcc[ptr++] = ((hi << 10) | lo) + 0x10000;
-	    }
-	    else
-		rcc[ptr++] = c;
-	}
-	
-	final int[] rc = new int[ptr];
-	System.arraycopy(rcc, 0, rc, 0, ptr);
-	return rc;
     }
     
     
