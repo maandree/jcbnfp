@@ -35,7 +35,7 @@ class ParseReturn
     /**
      * The subtree's named capture storage, may be <code>null</code>
      */
-    public HashMap<String, ArrayList<int[]>> storage = null;
+    public HashMap<String, ArrayDeque<int[]>> storage = null;
     
     /**
      * The number of read elements in the named capture storage for a given name
@@ -57,17 +57,17 @@ class ParseReturn
     protected void cat(final ParseReturn obj)
     {
 	{
-	    HashMap<String, ArrayList<int[]>> xx = this.storage;
-	    final HashMap<String, ArrayList<int[]>> xy = obj.storage;
+	    HashMap<String, ArrayDeque<int[]>> xx = this.storage;
+	    final HashMap<String, ArrayDeque<int[]>> xy = obj.storage;
 	    
 	    if (xx == null)
 		this.storage = xy;
 	    else
-		for (final Map.Entry<String, ArrayList<int[]>> entry : xy.entrySet())
+		for (final Map.Entry<String, ArrayDeque<int[]>> entry : xy.entrySet())
 		{
 		    final String key = entry.getKey();
-		    final ArrayList<int[]> values = entry.getValue();
-		    final ArrayList<int[]> vs;
+		    final ArrayDeque<int[]> values = entry.getValue();
+		    final ArrayDeque<int[]> vs;
 		    
 		    if ((vs = xx.get(key)) != null)
 			vs.addAll(values);

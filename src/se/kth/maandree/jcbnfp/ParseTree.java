@@ -75,7 +75,7 @@ public class ParseTree
     /**
      * The subtree's named capture storage, may be <code>null</code>
      */
-    public HashMap<String, ArrayList<int[]>> storage = null;
+    public HashMap<String, ArrayDeque<int[]>> storage = null;
     
     /**
      * Definition map
@@ -94,7 +94,7 @@ public class ParseTree
     public int parse(final int[] data, final int off)
     {
 	@SuppressWarnings({"all", "unchecked", "rawtypes"}) // ecj finds [unchecked], openjdk finds [rawtypes] as well, [all] removed warning about "rawtypes" in ecj
-	final HashMap<String, ArrayList<int[]>>[] storages = (HashMap<String, ArrayList<int[]>>[])(new HashMap[32]);
+	final HashMap<String, ArrayDeque<int[]>>[] storages = (HashMap<String, ArrayDeque<int[]>>[])(new HashMap[32]);
 	@SuppressWarnings({"all", "unchecked", "rawtypes"})
 	final HashMap<String, int[]>[] reads = (HashMap<String, int[]>[])(new HashMap[32]);
 	final ParseReturn r = parse(data, off, this.definition.definition, storages, 0, reads, 0, (byte)0);
@@ -114,7 +114,7 @@ public class ParseTree
      * @parma   elementalState  Grammar element state
      * @return                  The capture's span, <code>null</code> if not found, otherwise, {start, end}
      */
-    private int[] backtrack(final String name, final HashMap<String, ArrayList<int[]>>[] storages, final int storagePtr,
+    private int[] backtrack(final String name, final HashMap<String, ArrayDeque<int[]>>[] storages, final int storagePtr,
 			    final HashMap<String, int[]>[] reads, final int readPtr, final byte elementalState)
     {
 	ParseTree tree = this;
@@ -123,23 +123,22 @@ public class ParseTree
 	    if (tree == null)
 		return null;
 	    
-	    final HashMap<String, ArrayList<int[]>> s = this.storage;
-	    if (s == null)
+	    final HashMap<String, ArrayDeque<int[]>> map = this.storage;
+	    if (map == null)
 	    {
 		tree = tree.parent;
-		break;
+		continue;
 	    }
 	    
-	    final ArrayList<int[]> a = s.get(name);
-	    if (a == null)
+	    final ArrayDeque<int[]> array = map.get(name);
+	    if (array == null)
 	    {
 		tree = tree.parent;
-		break;
+		continue;
 	    }
 	    
-	    //TODO ########################################################################################
+	    return array.pollFirst();
 	}
-	return null; // todo #####
     }
     
     
@@ -156,7 +155,7 @@ public class ParseTree
      * @param   elementalState  Grammar element state
      * @return                  Parsing subtree data
      */
-    private ParseReturn parse(final int[] data, final int off, final GrammarElement def, final HashMap<String, ArrayList<int[]>>[] storages,
+    private ParseReturn parse(final int[] data, final int off, final GrammarElement def, final HashMap<String, ArrayDeque<int[]>>[] storages,
 			 final int storagePtr, final HashMap<String, int[]>[] reads, final int readPtr, final byte elementalState)
     {
 	ParseReturn rc = new ParseReturn();
@@ -199,15 +198,14 @@ public class ParseTree
 		return null;
 	    
 	    if (r.storage == null)
-		r.storage = new HashMap<String, ArrayList<int[]>>();
+		r.storage = new HashMap<String, ArrayDeque<int[]>>();
 	    
-	    ArrayList<int[]> list = r.storage.get(name);
+	    ArrayDeque<int[]> list = r.storage.get(name);
 	    if (list == null)
-		r.storage.put(name, list = new ArrayList<int[]>());
+		r.storage.put(name, list = new ArrayDeque<int[]>());
 	    
-	    //FIXME (start and ref[] are not definied)
-	    //list.add(0, new int[] { start, start + ref[0] }); // I have arbitrarly choosen to add items in parse (definition) order,
-	    //                                                  // rather than parsed (complete) order; however storing effected by
+	    list.offerFirst(new int[] { off, off + r.read }); // I have arbitrarly choosen to add items in parse (definition) order,
+	                                                      // rather than parsed (complete) order; however storing effected by
 	    return r;                                         // this choice [for example <a=x <a=y> z>] is strongly disencouraged.
 	}
 	if (grammar instanceof JCBNFBoundedRepeation) //TODO ###################################################################################### reads
@@ -216,11 +214,11 @@ public class ParseTree
 	    final int min = ((JCBNFBoundedRepeation)grammar).minCount;
 	    final int max = ((JCBNFBoundedRepeation)grammar).maxCount;
 	    final GrammarElement g = ((JCBNFBoundedRepeation)grammar).element;
-	    HashMap<String, ArrayList<int[]>>[] nstorages = storages;
+	    HashMap<String, ArrayDeque<int[]>>[] nstorages = storages;
 	    if (storagePtr == storages.length)
 	    {
 		@SuppressWarnings({"all", "unchecked", "rawtypes"})
-		final HashMap<String, ArrayList<int[]>>[] nnstorages = (HashMap<String, ArrayList<int[]>>[])(new HashMap[storagePtr << 1]);
+		final HashMap<String, ArrayDeque<int[]>>[] nnstorages = (HashMap<String, ArrayDeque<int[]>>[])(new HashMap[storagePtr << 1]);
 		System.arraycopy(storages, 0, nnstorages, 0, storagePtr);
 		nstorages = nnstorages;
 	    }
@@ -259,11 +257,11 @@ public class ParseTree
 	{
 	    ParseReturn r;
 	    int offset = off;
-	    HashMap<String, ArrayList<int[]>>[] nstorages = storages;
+	    HashMap<String, ArrayDeque<int[]>>[] nstorages = storages;
 	    if (storagePtr == storages.length)
 	    {
 		@SuppressWarnings({"all", "unchecked", "rawtypes"})
-	        final HashMap<String, ArrayList<int[]>>[] nnstorages = (HashMap<String, ArrayList<int[]>>[])(new HashMap[storagePtr << 1]);
+	        final HashMap<String, ArrayDeque<int[]>>[] nnstorages = (HashMap<String, ArrayDeque<int[]>>[])(new HashMap[storagePtr << 1]);
 		System.arraycopy(storages, 0, nnstorages, 0, storagePtr);
 		nstorages = nnstorages;
 	    }
