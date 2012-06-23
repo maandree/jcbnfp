@@ -48,7 +48,7 @@ public class Program
     public static void main(final String... args)
     {
 	final String jcbnfFile = args[0];
-	final String parseFile = args[1];
+	//final String parseFile = args[1]; //TODO
 	
 	InputStream pis = null;
 	try

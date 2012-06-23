@@ -35,7 +35,6 @@ public class Parser
      * @param  definitions  Definition map
      * @param  main         The main definition, normally the title of the JCBNF file
      */
-    @SuppressWarnings("hiding")
     public Parser(final HashMap<String, Definition> definitions, final String main)
     {
 	this.definitions = definitions;
@@ -195,9 +194,9 @@ public class Parser
 	 */
 	public int parse(final int[] data, final int off)
 	{
-	    @SuppressWarnings({"rawtypes", "unchecked"})
+	    @SuppressWarnings({"all", "unchecked", "rawtypes"}) // ecj finds [unchcked], openjdk finds [rawtypes] as well, [all] removed warning about "rawtypes" in ecj
 	    final HashMap<String, ArrayList<int[]>>[] storages = (HashMap<String, ArrayList<int[]>>[])(new HashMap[32]);
-	    @SuppressWarnings({"rawtypes", "unchecked"})
+	    @SuppressWarnings({"all", "unchecked", "rawtypes"})
 	    final HashMap<String, int[]>[] reads = (HashMap<String, int[]>[])(new HashMap[32]);
 	    final Return r = parse(data, off, this.definition.definition, storages, 0, reads, 0, (byte)0);
 	    this.storage = r.storage;
@@ -241,6 +240,7 @@ public class Parser
 		
 		//TODO ########################################################################################
 	    }
+	    return null; // todo #####
 	}
 	
 	
@@ -257,7 +257,6 @@ public class Parser
 	 * @param   elementalState  Grammar element state
 	 * @return                  Parsing subtree data
 	 */
-	@SuppressWarnings("unchecked")
 	private Return parse(final int[] data, final int off, final GrammarElement def, final HashMap<String, ArrayList<int[]>>[] storages,
 			     final int storagePtr, final HashMap<String, int[]>[] reads, final int readPtr, final byte elementalState)
 	{
@@ -272,6 +271,7 @@ public class Parser
 	    
 	    if (grammar instanceof JCBNFBacktrack)
 	    {
+		final String name = ((JCBNFBacktrack)grammar).name;
 		final int[] start_end = backtrack(name, storages, storagePtr, reads, readPtr, elementalState);
 		if (start_end == null)
 		    return null;
@@ -306,8 +306,9 @@ public class Parser
 		if (list == null)
 		    r.storage.put(name, list = new ArrayList<int[]>());
 		
-		list.add(0, new int[] {start, start + ref[0], }); // I have arbitrarly choosen to add items in parse (definition) order,
-		                                                  // rather than parsed (complete) order; however storing effected by
+		//FIXME (start and ref[] are not definied)
+		//list.add(0, new int[] { start, start + ref[0] }); // I have arbitrarly choosen to add items in parse (definition) order,
+		//                                                  // rather than parsed (complete) order; however storing effected by
 		return r;                                         // this choice [for example <a=x <a=y> z>] is strongly disencouraged.
 	    }
 	    if (grammar instanceof JCBNFBoundedRepeation) //TODO ###################################################################################### reads
@@ -319,7 +320,7 @@ public class Parser
 		HashMap<String, ArrayList<int[]>>[] nstorages = storages;
 		if (storagePtr == storages.length)
 		{
-		    @SuppressWarnings({"rawtypes", "unchecked"})
+		    @SuppressWarnings({"all", "unchecked", "rawtypes"})
 		    final HashMap<String, ArrayList<int[]>>[] nnstorages = (HashMap<String, ArrayList<int[]>>[])(new HashMap[storagePtr << 1]);
 		    System.arraycopy(storages, 0, nnstorages, 0, storagePtr);
 		    nstorages = nnstorages;
@@ -362,7 +363,7 @@ public class Parser
 		HashMap<String, ArrayList<int[]>>[] nstorages = storages;
 		if (storagePtr == storages.length)
 		{
-		    @SuppressWarnings({"rawtypes", "unchecked"})
+		    @SuppressWarnings({"all", "unchecked", "rawtypes"})
 		    final HashMap<String, ArrayList<int[]>>[] nnstorages = (HashMap<String, ArrayList<int[]>>[])(new HashMap[storagePtr << 1]);
 		    System.arraycopy(storages, 0, nnstorages, 0, storagePtr);
 		    nstorages = nnstorages;
