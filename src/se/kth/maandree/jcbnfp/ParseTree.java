@@ -89,7 +89,7 @@ public class ParseTree
      * 
      * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
      */
-    static class Return
+    static class ParseReturn
     {
 	//Has default constructor
 	
@@ -117,7 +117,7 @@ public class ParseTree
 	 * 
 	 * @param  obj  The object with which to concatenate
 	 */
-	protected void cat(final Return obj)
+	protected void cat(final ParseReturn obj)
 	{
 	    {
 		HashMap<String, ArrayList<int[]>> xx = this.storage;
@@ -172,7 +172,7 @@ public class ParseTree
 	final HashMap<String, ArrayList<int[]>>[] storages = (HashMap<String, ArrayList<int[]>>[])(new HashMap[32]);
 	@SuppressWarnings({"all", "unchecked", "rawtypes"})
 	final HashMap<String, int[]>[] reads = (HashMap<String, int[]>[])(new HashMap[32]);
-	final Return r = parse(data, off, this.definition.definition, storages, 0, reads, 0, (byte)0);
+	final ParseReturn r = parse(data, off, this.definition.definition, storages, 0, reads, 0, (byte)0);
 	this.storage = r.storage;
 	return r == null ? -1 : r.read;
     }
@@ -231,10 +231,10 @@ public class ParseTree
      * @param   elementalState  Grammar element state
      * @return                  Parsing subtree data
      */
-    private Return parse(final int[] data, final int off, final GrammarElement def, final HashMap<String, ArrayList<int[]>>[] storages,
+    private ParseReturn parse(final int[] data, final int off, final GrammarElement def, final HashMap<String, ArrayList<int[]>>[] storages,
 			 final int storagePtr, final HashMap<String, int[]>[] reads, final int readPtr, final byte elementalState)
     {
-	Return rc = new Return();
+	ParseReturn rc = new ParseReturn();
 	final GrammarElement grammar = Parser.assemble(def);
 	final int atom = Parser.passes(data, off, grammar);
 	
@@ -269,7 +269,7 @@ public class ParseTree
 	{
 	    final String name = ((JCBNFStore)grammar).name;
 	    final GrammarElement g = ((JCBNFStore)grammar).element;
-	    final Return r = parse(data, off, g, storages, storagePtr, reads, readPtr, elementalState);
+	    final ParseReturn r = parse(data, off, g, storages, storagePtr, reads, readPtr, elementalState);
 	    if (r.read < 0)
 		return null;
 	    
@@ -287,7 +287,7 @@ public class ParseTree
 	}
 	if (grammar instanceof JCBNFBoundedRepeation) //TODO ###################################################################################### reads
 	{
-	    Return r;
+	    ParseReturn r;
 	    final int min = ((JCBNFBoundedRepeation)grammar).minCount;
 	    final int max = ((JCBNFBoundedRepeation)grammar).maxCount;
 	    final GrammarElement g = ((JCBNFBoundedRepeation)grammar).element;
@@ -332,7 +332,7 @@ public class ParseTree
 	}
 	if (grammar instanceof JCBNFJuxtaposition) //TODO ###################################################################################### reads
 	{
-	    Return r;
+	    ParseReturn r;
 	    int offset = off;
 	    HashMap<String, ArrayList<int[]>>[] nstorages = storages;
 	    if (storagePtr == storages.length)
