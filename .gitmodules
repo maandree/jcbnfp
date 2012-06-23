@@ -1,0 +1,3 @@
+[submodule "JCBNF"]
+	path = JCBNF
+	url = git://github.com/maandree/JCBNF.git
