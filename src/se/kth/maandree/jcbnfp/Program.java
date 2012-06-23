@@ -48,19 +48,28 @@ public class Program
     public static void main(final String... args)
     {
 	final String jcbnfFile = args[0];
-	//final String parseFile = args[1]; //TODO
+	final String parseFile = args[1];
+	final String main      = args[2];
 	
-	InputStream pis = null;
+	InputStream gis = null, fis = null;
 	try
 	{
-	    pis = new BufferedInputStream(new FileInputStream(new File(jcbnfFile)));
-	    final HashMap<String, Definition> defs = GrammarParser.parseGrammar(pis);
+	    gis = new BufferedInputStream(new FileInputStream(new File(jcbnfFile)));
+	    final HashMap<String, Definition> defs = GrammarParser.parseGrammar(gis);
 	    for (final Definition def : defs.values())
 	    {
 		printGrammar(def);
 		System.out.println();
 		System.out.println();
 	    }
+	    
+	    
+	    System.out.println("--- Parsing ---");
+	    
+	    
+	    final Parser parser = new Parser(defs, main);
+	    fis = new BufferedInputStream(new FileInputStream(new File(parseFile)));
+	    parser.parse(fis);
 	}
 	catch (final SyntaxFileError err)
 	{
@@ -80,14 +89,19 @@ public class Program
 	}
 	finally
 	{
-	    if (pis != null)
+	    if (gis != null)
 		try
-		{
-		    pis.close();
+		{   gis.close();
 		}
 		catch (final Throwable err)
-		{
-		    //Ignore
+		{   //Ignore
+		}
+	    if (fis != null)
+		try
+		{   fis.close();
+		}
+		catch (final Throwable err)
+		{   //Ignore
 		}
 	}
     }
