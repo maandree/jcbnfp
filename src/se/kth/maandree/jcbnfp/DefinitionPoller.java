@@ -284,7 +284,7 @@ class DefinitionPoller
 	    
 	    final Integer iline = new Integer(lineIndex);
 	    
-	    this.lineMap.put(iline, intArrayToString(line));
+	    this.lineMap.put(iline, Util.intArrayToString(line));
 	    
 	    int namelen = 0;
 	    while (((c = line[namelen]) == '_') || (c == '@') || ('0' <= c && c <= '9') || ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z'))
@@ -314,7 +314,7 @@ class DefinitionPoller
 	    }
 	    
 	    if ((name == null) && (namelen == 0))
-		throw new SyntaxFileError("Name missing", lineIndex, intArrayToString(line));
+		throw new SyntaxFileError("Name missing", lineIndex, Util.intArrayToString(line));
 	    
 	    if (namelen > 0)
 	    {
@@ -329,7 +329,7 @@ class DefinitionPoller
 		off++;
 	    
 	    if (off + 3 >= len)
-		throw new SyntaxFileError("Missing statement symbol (::=, ::-, ==>, -->, <--, <==, w-- or w==)", lineIndex, intArrayToString(line));
+		throw new SyntaxFileError("Missing statement symbol (::=, ::-, ==>, -->, <--, <==, w-- or w==)", lineIndex, Util.intArrayToString(line));
 	    
 	    final int stmt;
 	    if      ((line[off + 0] == ':') && (line[off + 1] == ':') && (line[off + 2] == '=')) stmt = DEFINITION;
@@ -341,13 +341,13 @@ class DefinitionPoller
 	    else if ((line[off + 0] == 'w') && (line[off + 1] == '-') && (line[off + 2] == '-')) stmt = WARNING;
 	    else if ((line[off + 0] == 'w') && (line[off + 1] == '=') && (line[off + 2] == '=')) stmt = WARNING_UNIQUE;
 	    else
-		throw new SyntaxFileError("Unrecognised statement symbol", lineIndex, intArrayToString(line));
+		throw new SyntaxFileError("Unrecognised statement symbol", lineIndex, Util.intArrayToString(line));
 	    
 	    if ((stmt == DEFINITION_CON) && (lastStmt != DEFINITION) && (lastStmt != DEFINITION_CON))
-		throw new SyntaxFileError("There is nothing to continue", lineIndex, intArrayToString(line));
+		throw new SyntaxFileError("There is nothing to continue", lineIndex, Util.intArrayToString(line));
 	    
 	    if ((stmt == COMPILES_CON) && (lastStmt != COMPILES) && (lastStmt != COMPILES_CON))
-		throw new SyntaxFileError("There is nothing to continue", lineIndex, intArrayToString(line));
+		throw new SyntaxFileError("There is nothing to continue", lineIndex, Util.intArrayToString(line));
 	    
 	    lastStmt = stmt;
 	    off += 3;
@@ -381,43 +381,6 @@ class DefinitionPoller
 	    }
 	
 	return null;
-    }
-    
-    
-    /**
-     * Converts an integer array to a string with only 16-bit charaters
-     * 
-     * @param   ints  The int array
-     * @return        The string
-     */
-    public static String intArrayToString(final int[] ints)
-    {
-	int len = ints.length;
-	for (final int i : ints)
-	    if (i > 0xFFFF)
-		len++;
-	    else if (i > 0x10FFFF)
-		throw new RuntimeException("Be serious, there is no character above plane 16.");
-	
-	final char[] chars = new char[len];
-	int ptr = 0;
-	
-	for (final int i : ints)
-	    if (i <= 0xFFFF)
-		chars[ptr++] = (char)i;
-	    else
-	    {
-		//0x10000 + (H - 0xD800) * 0x400 + (L - 0xDC00)
-		
-		int c = i - 0x10000;
-		int L = (c % 0x400) + 0xDC00;
-		int H = (c / 0x400) + 0xD800;
-		
-		chars[ptr++] = (char)H;
-		chars[ptr++] = (char)L;
-	    }
-	
-	return new String(chars);
     }
     
 }

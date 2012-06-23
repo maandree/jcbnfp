@@ -72,5 +72,43 @@ class Util
 	System.arraycopy(rcc, 0, rc, 0, ptr);
 	return rc;
     }
+    
+    
+    /**
+     * Converts an integer array to a string with only 16-bit charaters
+     * 
+     * @param   ints  The int array
+     * @return        The string
+     */
+    public static String intArrayToString(final int[] ints)
+    {
+	int len = ints.length;
+	for (final int i : ints)
+	    if (i > 0xFFFF)
+		len++;
+	    else if (i > 0x10FFFF)
+		throw new RuntimeException("Be serious, there is no character above plane 16.");
+	
+	final char[] chars = new char[len];
+	int ptr = 0;
+	
+	for (final int i : ints)
+	    if (i <= 0xFFFF)
+		chars[ptr++] = (char)i;
+	    else
+	    {
+		//0x10000 + (H - 0xD800) * 0x400 + (L - 0xDC00)
+		
+		int c = i - 0x10000;
+		int L = (c % 0x400) + 0xDC00;
+		int H = (c / 0x400) + 0xD800;
+		
+		chars[ptr++] = (char)H;
+		chars[ptr++] = (char)L;
+	    }
+	
+	return new String(chars);
+    }
+    
 }
 

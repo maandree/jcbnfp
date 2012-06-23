@@ -366,8 +366,8 @@ public class Definition
 			final GrammarElement b = ((JCBNFAlternation)elem).elements.get(1);
 			if ((a instanceof JCBNFString) && (b instanceof JCBNFString))
 			{
-			    final String replacee = DefinitionPoller.intArrayToString(((JCBNFString)a).string);
-			    final String replacer = DefinitionPoller.intArrayToString(((JCBNFString)b).string);
+			    final String replacee = Util.intArrayToString(((JCBNFString)a).string);
+			    final String replacer = Util.intArrayToString(((JCBNFString)b).string);
 			    
 			    elems.add(new JCBNFBacktrack(name, replacee, replacer));
 			}
