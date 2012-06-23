@@ -339,12 +339,14 @@ public class Parser
 		if (((JCBNFJuxtaposition)elem).elements.size() == 1)
 		    elem = ((JCBNFJuxtaposition)elem).elements.get(0);
 		else
-		    elem = null;
+		    break;
 	    else if ((elem instanceof JCBNFAlternation) && (((JCBNFAlternation)elem).elements.size() <= 1))
 		if (((JCBNFAlternation)elem).elements.size() == 1)
 		    elem = ((JCBNFAlternation)elem).elements.get(0);
 		else
-		    elem = null;
+		    break;
+	    else
+		break;
 	
 	return elem;
     }

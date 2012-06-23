@@ -75,12 +75,12 @@ public class ParseTree
     /**
      * The subtree's named capture storage, may be <code>null</code>
      */
-    public HashMap<String, ArrayDeque<int[]>> storage = null;
+    protected HashMap<String, ArrayDeque<int[]>> storage = null;
     
     /**
      * Definition map
      */
-    public final HashMap<String, Definition> definitions;
+    protected final HashMap<String, Definition> definitions;
     
     
     
@@ -95,8 +95,10 @@ public class ParseTree
     {
 	@SuppressWarnings({"all", "unchecked", "rawtypes"}) // ecj finds [unchecked], openjdk finds [rawtypes] as well, [all] removed warning about "rawtypes" in ecj
 	final HashMap<String, ArrayDeque<int[]>>[] storages = (HashMap<String, ArrayDeque<int[]>>[])(new HashMap[32]);
+	
 	@SuppressWarnings({"all", "unchecked", "rawtypes"})
 	final HashMap<String, int[]>[] reads = (HashMap<String, int[]>[])(new HashMap[32]);
+	
 	final ParseReturn r = parse(data, off, this.definition.definition, storages, 0, reads, 0, (byte)0);
 	this.storage = r.storage;
 	return r == null ? -1 : r.read;
@@ -156,8 +158,10 @@ public class ParseTree
      * @return                  Parsing subtree data
      */
     private ParseReturn parse(final int[] data, final int off, final GrammarElement def, final HashMap<String, ArrayDeque<int[]>>[] storages,
-			 final int storagePtr, final HashMap<String, int[]>[] reads, final int readPtr, final byte elementalState)
+			      final int storagePtr, final HashMap<String, int[]>[] reads, final int readPtr, final byte elementalState)
     {
+	System.err.println("parsing: " + def);
+	def.printGrammar("::=  ");
 	ParseReturn rc = new ParseReturn();
 	final GrammarElement grammar = Parser.assemble(def);
 	final int atom = Parser.passes(data, off, grammar);
@@ -299,8 +303,7 @@ public class ParseTree
 	    final String name = ((JCBNFDefinition)grammar).name;
 	    final ParseTree child = new ParseTree(this, this.definitions.get(name), this.definitions);
 	    this.children.add(child);
-	    final int r = child.parse(data, off);
-	    rc.read = r;
+	    rc.read = child.parse(data, off);
 	    return rc;
 	}
 	
