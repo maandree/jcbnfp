@@ -239,7 +239,7 @@ public class Parser
 		    break;
 		}
 		
-		########################################################################################
+		//TODO ########################################################################################
 	    }
 	}
 	
@@ -310,7 +310,7 @@ public class Parser
 		                                                  // rather than parsed (complete) order; however storing effected by
 		return r;                                         // this choice [for example <a=x <a=y> z>] is strongly disencouraged.
 	    }
-	    if (grammar instanceof JCBNFBoundedRepeat) ###################################################################################### reads
+	    if (grammar instanceof JCBNFBoundedRepeat) //TODO ###################################################################################### reads
 	    {
 		Return r;
 		final int min = ((JCBNFBoundedRepeat)grammar).min;
@@ -354,7 +354,7 @@ public class Parser
 		rc.read = offset - off;
 		return rc;
 	    }
-	    if (grammar instanceof JCBNFJuxtaposition) ###################################################################################### reads
+	    if (grammar instanceof JCBNFJuxtaposition) //TODO ###################################################################################### reads
 	    {
 		Return r;
 		int offset = off;
@@ -396,7 +396,7 @@ public class Parser
 	    }
 	    if (grammar instanceof JCBNFDefinition)
 	    {
-		final name = ((JCBNFDefinition)grammar).name;
+		final String name = ((JCBNFDefinition)grammar).name;
 		final ParseTree child = new ParseTree(this, parser.this.definitions.get(name));
 		this.children.add(child);
 		final int r = child.parse(data, off);
@@ -426,15 +426,15 @@ public class Parser
 		if ((0xD800 <= c) && (c < 0xDC00))
 		{
 		    final char cc = string.charAt(++i);
-		    final int hi = c  & 3FF;
-		    final int lo = cc & 3FF;
+		    final int hi = c  & 0x3FF;
+		    final int lo = cc & 0x3FF;
 		    rcc[ptr++] = ((hi << 10) | lo) + 0x10000;
 		}
 		else if ((0xDC00 <= c) && (c < 0xE000))
 		{
 		    final char cc = string.charAt(++i);
-		    final int lo = c  & 3FF;
-		    final int hi = cc & 3FF;
+		    final int lo = c  & 0x3FF;
+		    final int hi = cc & 0x3FF;
 		    rcc[ptr++] = ((hi << 10) | lo) + 0x10000;
 		}
 		else
@@ -474,7 +474,7 @@ public class Parser
 		    bndrep.element = elem;
 		    elem = bndrep;
 		}
-		else if (elem instanceof JCBNFBoundedRepeation) && (((JCBNFBoundedRepeation)elem).option != null)
+		else if ((elem instanceof JCBNFBoundedRepeation) && (((JCBNFBoundedRepeation)elem).option != null))
 		{
 		    final JCBNFBoundedRepeation e = (JCBNFBoundedRepeation)elem;
 		    final JCBNFJuxtaposition juxta = new JCBNFJuxtaposition();
@@ -602,7 +602,7 @@ public class Parser
 		    return -1;
 		
 		for (int i = 0; i < n; i++)
-		    if (data[i + off) != grammar[i])
+		    if (data[i + off] != grammar[i])
 			return -1;
 		
 		return m;
@@ -623,7 +623,7 @@ public class Parser
 		    return -1;
 		
 		for (int i = 0; i < n; i++)
-		    if (data[i + off) != grammar[i])
+		    if (data[i + off] != grammar[i])
 			return -1;
 		
 		prev = off + m == 0 ? -1 : data[off + m - 1];
@@ -643,7 +643,7 @@ public class Parser
 		if (n == 0)
 		    return 0;
 		
-		if ((off == m) || (data[off] != grammar[0])
+		if ((off == m) || (data[off] != grammar[0]))
 		    return -1;
 		
 		for (int i = 1; i < n; i++)
