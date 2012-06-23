@@ -1,0 +1,6 @@
+main    ::= line [lines]
+N       ::= (\r \n) | \n | \r | \f
+lines   ::= {N line}
+line    ::= [content]
+content ::= {char}
+char    ::= $any ^ \n ^ \r ^ \f
