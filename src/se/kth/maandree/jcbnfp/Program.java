@@ -72,7 +72,7 @@ public class Program
 	    System.out.println("\n");
 	    
 	    System.out.println("--- Parsed code ---\n\n");
-	    printTree(tree);
+	    printTree(tree, parser.data);
 	    System.out.println("\n");
 	}
 	catch (final SyntaxFileError err)
@@ -115,8 +115,11 @@ public class Program
      * Prints out a parsed tree
      * 
      * @param  tree  The tree
+     * @param  data  The parsed data
+     * 
+     * @throws  Exception  Yay!
      */
-    public static void printTree(final ParseTree tree)
+    public static void printTree(final ParseTree tree, final int[] data) throws Exception
     {
 	final ArrayDeque<ParseTree> nodes = new ArrayDeque<ParseTree>();
 	final ArrayDeque<String> indents = new ArrayDeque<String>();
@@ -137,7 +140,9 @@ public class Program
 	    System.out.print(node.intervalEnd - node.intervalStart);
 	    System.out.print(", ");
 	    System.out.print(node.intervalEnd);
-	    System.out.println(")\033[35m");
+	    System.out.print(")  \"\033[32m");
+	    System.out.write(Escaper.escape(data, node.intervalStart, node.intervalEnd - node.intervalStart));
+	    System.out.println("\033[39m\"\033[35m");
 	    System.out.println(indent + "(:: " + node.definition.name + " ::)");
 	    node.definition.definition.printGrammar(indent + "::= ");
 	    System.out.print("\033[39m");

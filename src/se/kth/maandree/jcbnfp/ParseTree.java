@@ -114,7 +114,7 @@ public class ParseTree
 	int rc = r == null ? -1 : r.read;
 	
 	this.intervalStart = off;
-	this.intervalEnd = rc <= 0 ? off : (off + rc);
+	this.intervalEnd = rc < 0 ? off : rc;
 	
 	return rc;
     }
@@ -253,7 +253,7 @@ public class ParseTree
 		r = parse(data, offset, g, nstorages, storagePtr + 1, reads, readPtr, (byte)es);
 		if ((r == null) || (r.read < 0))
 		    return null;
-		offset += r.read;
+		offset = r.read;
 		rc.cat(r);
 		if (nstorages[storagePtr] == null)
 		    nstorages[storagePtr] = rc.storage;
@@ -263,13 +263,13 @@ public class ParseTree
 		r = parse(data, offset, g, nstorages, storagePtr + 1, reads, readPtr, (byte)es);
 		if ((r == null) || (r.read < 0))
 		    break;
-		offset += r.read;
+		offset = r.read;
 		rc.cat(r);
 		if (nstorages[storagePtr] == null)
 		    nstorages[storagePtr] = rc.storage;
 	    }
 	    
-	    rc.read = offset - off;
+	    rc.read = offset;
 	    return rc;
 	}
 	if (grammar instanceof JCBNFJuxtaposition)
@@ -292,13 +292,13 @@ public class ParseTree
 		r = parse(data, offset, g, nstorages, storagePtr + 1, reads, readPtr, elementalState);
 		if ((r == null) || (r.read < 0))
 		    return null;
-		offset += r.read;
+		offset = r.read;
 		rc.cat(r);
 		if (nstorages[storagePtr] == null)
 		    nstorages[storagePtr] = rc.storage;
 	    }
 	    
-	    rc.read = offset - off;
+	    rc.read = offset;
 	    return rc;
 	}
 	if (grammar instanceof JCBNFAlternation)
@@ -317,8 +317,11 @@ public class ParseTree
 	{
 	    final String name = ((JCBNFDefinition)grammar).name;
 	    final ParseTree child = new ParseTree(this, this.definitions.get(name), this.definitions);
-	    this.children.add(child);
 	    rc.read = child.parse(data, off);
+	    if (rc.read < 0)
+		return null;
+	    System.out.println(rc.read);
+	    this.children.add(child);
 	    return rc;
 	}
 	

@@ -54,6 +54,11 @@ public class Parser
      */
     private final String main;
     
+    /**
+     * The data in the last read stream
+     */
+    public int[] data;
+    
     
     
     /**
@@ -114,7 +119,7 @@ public class Parser
 	
 	final Definition root = this.definitions.get(this.main);
 	final ParseTree tree = new ParseTree(null, root, this.definitions);
-	tree.parse(text, 0);
+	tree.parse(this.data = text, 0);
 	return tree;
     }
     
@@ -236,8 +241,8 @@ public class Parser
 	    if (off + n >= m)
 		return -1;
 	    
-	    int prev = off == 0 ? -1 : data[off - 1];
-	    int next = off == n ? -1 : data[off];
+	    int prev = off >= 0 ? -1 : data[off - 1];
+	    int next = off >= n ? -1 : data[off];
 	    
 	    if (JCBNFCheck.w.check(prev, next) == false)
 		return -1;
@@ -246,8 +251,8 @@ public class Parser
 		if (data[i + off] != grammar[i])
 		    return -1;
 	    
-	    prev = off + m == 0 ? -1 : data[off + m - 1];
-	    next = off + m == n ? -1 : data[off + m];
+	    prev = off + m >= 0 ? -1 : data[off + m - 1];
+	    next = off + m >= n ? -1 : data[off + m];
 	    
 	    if (JCBNFCheck.w.check(prev, next) == false)
 		return -1;
@@ -263,11 +268,11 @@ public class Parser
 	    if (n == 0)
 		return 0;
 	    
-	    if ((off == m) || (data[off] != grammar[0]))
+	    if ((off >= m) || (data[off] != grammar[0]))
 		return -1;
 	    
 	    for (int i = 1; i < n; i++)
-		if ((i + off == m) || (data[i + off] != grammar[i]))
+		if ((i + off >= m) || (data[i + off] != grammar[i]))
 		    return i;
 	    
 	    return n;
@@ -277,7 +282,7 @@ public class Parser
 	    final JCBNFCharacters grammar = (JCBNFCharacters)def;
 	    final int n = data.length;
 	    
-	    if (off == n)
+	    if (off >= n)
 		return -1;
 	    
 	    return grammar.contains(data[off]) ? 1 : -1;
@@ -287,8 +292,8 @@ public class Parser
 	    final JCBNFCheck grammar = (JCBNFCheck)def;
 	    final int n = data.length;
 	    
-	    final int prev = off == 0 ? -1 : data[off - 1];
-	    final int next = off == n ? -1 : data[off];
+	    final int prev = off >= 0 ? -1 : data[off - 1];
+	    final int next = off >= n ? -1 : data[off];
 	    
 	    return grammar.check(prev, next) ? 0 : -1;
 	}
