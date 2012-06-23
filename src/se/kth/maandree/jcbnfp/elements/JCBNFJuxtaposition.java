@@ -16,56 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-package se.kth.maandree.jcbnfp;
+package se.kth.maandree.jcbnfp.elements;
+import se.kth.maandree.jcbnfp.*;
+
+import java.util.*;
 
 
 /**
- * JCBNF grammar element: backtrack
+ * JCBNF grammar element: juxtaposition
  * 
  * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
  */
-public class JCBNFBacktrack implements GrammarElement
+public class JCBNFJuxtaposition implements GrammarElement
 {
-    /**
-     * Constructor
-     * 
-     * @param  name      The name
-     * @param  replacee  The replacee
-     * @param  replacer  The replacer
-     */
-    public JCBNFBacktrack(final String name, final String replacee, final String replacer)
-    {
-	this.name     = name;
-	this.replacee = replacee;
-	this.replacer = replacer;
-    }
-    
-    /**
-     * Constructor
-     * 
-     * @param  name  The name
-     */
-    public JCBNFBacktrack(final String name)
-    {
-	this(name, null, null);
-    }
+    //Has default contructor
     
     
     
     /**
-     * The name
+     * The elements
      */
-    public final String name;
-    
-    /**
-     * The replacee
-     */
-    public final String replacee;
-    
-    /**
-     * The replacer
-     */
-    public final String replacer;
+    public final ArrayList<GrammarElement> elements = new ArrayList<GrammarElement>();
     
     
     
@@ -78,12 +49,9 @@ public class JCBNFBacktrack implements GrammarElement
     public void printGrammar(final String indent)
     {
 	System.out.print(indent);
-	System.out.println("<" + name + ">()");
-	if ((this.replacee != null) && (this.replacer != null))
-	{
-	    System.out.println(indent + "  \"" + Escaper.escape(this.replacee) + '"');
-	    System.out.println(indent + "  \"" + Escaper.escape(this.replacer) + '"');
-	}
+	System.out.println(".juxta.");
+	for (final GrammarElement e : this.elements)
+	    e.printGrammar(indent + "  ");
     }
     
 }

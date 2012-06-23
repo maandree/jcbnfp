@@ -16,24 +16,48 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-package se.kth.maandree.jcbnfp;
+package se.kth.maandree.jcbnfp.elements;
+import se.kth.maandree.jcbnfp.*;
 
 
 /**
- * JCBNF grammar element: option
+ * JCBNF grammar element: string
  * 
  * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
  */
-public class JCBNFOption implements GrammarElement
+public class JCBNFString implements GrammarElement
 {
-    //Has default contructor
+    /**
+     * Constructor
+     * 
+     * @param  def  The definition
+     * @param  off  The offset in the definition
+     * @param  end  A ref-array for then end of the definition
+     */
+    public JCBNFString(final int[] def, final int off, final int[] end)
+    {
+	final int[] str = new int[def.length - off];
+	int ptr = 0;
+	
+        for (int i = off;; i++)
+            if (def[i] == '\"')
+	    {
+		end[0] = i;
+		break;
+	    }
+	    else
+		str[ptr++] = def[i];
+	
+	this.string = new int[ptr];
+	System.arraycopy(str, 0, this.string, 0, ptr);
+    }
     
     
     
     /**
-     * The element
+     * The string
      */
-    public GrammarElement element = null;
+    public final int[] string;
     
     
     
@@ -46,9 +70,16 @@ public class JCBNFOption implements GrammarElement
     public void printGrammar(final String indent)
     {
 	System.out.print(indent);
-	System.out.println("[]");
-	if (this.element != null)
-	    this.element.printGrammar(indent + "  ");
+	System.out.print('"');
+	try
+	{
+	    System.out.write(Escaper.escape(this.string));
+	}
+	catch (final Throwable err)
+	{
+	    //Will not happen
+	}
+	System.out.println('"');
     }
     
 }

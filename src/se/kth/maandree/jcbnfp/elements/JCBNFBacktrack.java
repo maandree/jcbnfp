@@ -16,24 +16,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-package se.kth.maandree.jcbnfp;
+package se.kth.maandree.jcbnfp.elements;
+import se.kth.maandree.jcbnfp.*;
 
 
 /**
- * JCBNF grammar element: definition
+ * JCBNF grammar element: backtrack
  * 
  * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
  */
-public class JCBNFDefinition implements GrammarElement
+public class JCBNFBacktrack implements GrammarElement
 {
+    /**
+     * Constructor
+     * 
+     * @param  name      The name
+     * @param  replacee  The replacee
+     * @param  replacer  The replacer
+     */
+    public JCBNFBacktrack(final String name, final String replacee, final String replacer)
+    {
+	this.name     = name;
+	this.replacee = replacee;
+	this.replacer = replacer;
+    }
+    
     /**
      * Constructor
      * 
      * @param  name  The name
      */
-    public JCBNFDefinition(final String name)
+    public JCBNFBacktrack(final String name)
     {
-	this.name = name;
+	this(name, null, null);
     }
     
     
@@ -42,6 +57,16 @@ public class JCBNFDefinition implements GrammarElement
      * The name
      */
     public final String name;
+    
+    /**
+     * The replacee
+     */
+    public final String replacee;
+    
+    /**
+     * The replacer
+     */
+    public final String replacer;
     
     
     
@@ -54,7 +79,12 @@ public class JCBNFDefinition implements GrammarElement
     public void printGrammar(final String indent)
     {
 	System.out.print(indent);
-	System.out.println(name + "()");
+	System.out.println("<" + name + ">()");
+	if ((this.replacee != null) && (this.replacer != null))
+	{
+	    System.out.println(indent + "  \"" + Escaper.escape(this.replacee) + '"');
+	    System.out.println(indent + "  \"" + Escaper.escape(this.replacer) + '"');
+	}
     }
     
 }

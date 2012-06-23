@@ -16,26 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-package se.kth.maandree.jcbnfp;
-
-import java.util.*;
+package se.kth.maandree.jcbnfp.elements;
+import se.kth.maandree.jcbnfp.*;
 
 
 /**
- * JCBNF grammar element: juxtaposition
+ * JCBNF grammar element: option
  * 
  * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
  */
-public class JCBNFJuxtaposition implements GrammarElement
+public class JCBNFOption implements GrammarElement
 {
     //Has default contructor
     
     
     
     /**
-     * The elements
+     * The element
      */
-    public final ArrayList<GrammarElement> elements = new ArrayList<GrammarElement>();
+    public GrammarElement element = null;
     
     
     
@@ -48,9 +47,9 @@ public class JCBNFJuxtaposition implements GrammarElement
     public void printGrammar(final String indent)
     {
 	System.out.print(indent);
-	System.out.println(".juxta.");
-	for (final GrammarElement e : this.elements)
-	    e.printGrammar(indent + "  ");
+	System.out.println("[]");
+	if (this.element != null)
+	    this.element.printGrammar(indent + "  ");
     }
     
 }

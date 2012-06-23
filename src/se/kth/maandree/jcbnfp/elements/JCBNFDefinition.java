@@ -16,22 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-package se.kth.maandree.jcbnfp;
+package se.kth.maandree.jcbnfp.elements;
+import se.kth.maandree.jcbnfp.*;
 
 
 /**
- * JCBNF grammar element: store
+ * JCBNF grammar element: definition
  * 
  * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
  */
-public class JCBNFStore implements GrammarElement
+public class JCBNFDefinition implements GrammarElement
 {
     /**
      * Constructor
      * 
      * @param  name  The name
      */
-    public JCBNFStore(final String name)
+    public JCBNFDefinition(final String name)
     {
 	this.name = name;
     }
@@ -42,11 +43,6 @@ public class JCBNFStore implements GrammarElement
      * The name
      */
     public final String name;
-    
-    /**
-     * The element
-     */
-    public GrammarElement element = null;
     
     
     
@@ -59,9 +55,7 @@ public class JCBNFStore implements GrammarElement
     public void printGrammar(final String indent)
     {
 	System.out.print(indent);
-	System.out.println("<" + this.name + ">");
-	if (this.element != null)
-	    this.element.printGrammar(indent + "  ");
+	System.out.println(name + "()");
     }
     
 }

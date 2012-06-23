@@ -16,26 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-package se.kth.maandree.jcbnfp;
-
-import java.util.*;
+package se.kth.maandree.jcbnfp.elements;
+import se.kth.maandree.jcbnfp.*;
 
 
 /**
- * JCBNF grammar element: alternation
+ * JCBNF grammar element: store
  * 
  * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
  */
-public class JCBNFAlternation implements GrammarElement
+public class JCBNFStore implements GrammarElement
 {
-    //Has default contructor
+    /**
+     * Constructor
+     * 
+     * @param  name  The name
+     */
+    public JCBNFStore(final String name)
+    {
+	this.name = name;
+    }
     
     
     
     /**
+     * The name
+     */
+    public final String name;
+    
+    /**
      * The element
      */
-    public final ArrayList<GrammarElement> elements = new ArrayList<GrammarElement>();
+    public GrammarElement element = null;
     
     
     
@@ -48,9 +60,9 @@ public class JCBNFAlternation implements GrammarElement
     public void printGrammar(final String indent)
     {
 	System.out.print(indent);
-	System.out.println("|");
-	for (final GrammarElement e : this.elements)
-	    e.printGrammar(indent + "  ");
+	System.out.println("<" + this.name + ">");
+	if (this.element != null)
+	    this.element.printGrammar(indent + "  ");
     }
     
 }

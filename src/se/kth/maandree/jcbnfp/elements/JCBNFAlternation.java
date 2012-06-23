@@ -16,15 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-package se.kth.maandree.jcbnfp;
+package se.kth.maandree.jcbnfp.elements;
+import se.kth.maandree.jcbnfp.*;
+
+import java.util.*;
 
 
 /**
- * JCBNF grammar element: repeation
+ * JCBNF grammar element: alternation
  * 
  * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
  */
-public class JCBNFRepeation implements GrammarElement
+public class JCBNFAlternation implements GrammarElement
 {
     //Has default contructor
     
@@ -33,7 +36,7 @@ public class JCBNFRepeation implements GrammarElement
     /**
      * The element
      */
-    public GrammarElement element = null;
+    public final ArrayList<GrammarElement> elements = new ArrayList<GrammarElement>();
     
     
     
@@ -46,9 +49,9 @@ public class JCBNFRepeation implements GrammarElement
     public void printGrammar(final String indent)
     {
 	System.out.print(indent);
-	System.out.println("{}");
-	if (this.element != null)
-	    this.element.printGrammar(indent + "  ");
+	System.out.println("|");
+	for (final GrammarElement e : this.elements)
+	    e.printGrammar(indent + "  ");
     }
     
 }

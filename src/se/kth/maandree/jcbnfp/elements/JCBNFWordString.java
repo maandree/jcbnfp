@@ -16,15 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-package se.kth.maandree.jcbnfp;
+package se.kth.maandree.jcbnfp.elements;
+import se.kth.maandree.jcbnfp.*;
 
 
 /**
- * JCBNF grammar element: string
+ * JCBNF grammar element: word string
  * 
  * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
  */
-public class JCBNFString implements GrammarElement
+public class JCBNFWordString implements GrammarElement
 {
     /**
      * Constructor
@@ -33,13 +34,13 @@ public class JCBNFString implements GrammarElement
      * @param  off  The offset in the definition
      * @param  end  A ref-array for then end of the definition
      */
-    public JCBNFString(final int[] def, final int off, final int[] end)
+    public JCBNFWordString(final int[] def, final int off, final int[] end)
     {
 	final int[] str = new int[def.length - off];
 	int ptr = 0;
 	
         for (int i = off;; i++)
-            if (def[i] == '\"')
+            if (def[i] == '\'')
 	    {
 		end[0] = i;
 		break;
@@ -69,7 +70,7 @@ public class JCBNFString implements GrammarElement
     public void printGrammar(final String indent)
     {
 	System.out.print(indent);
-	System.out.print('"');
+	System.out.print('\'');
 	try
 	{
 	    System.out.write(Escaper.escape(this.string));
@@ -78,7 +79,7 @@ public class JCBNFString implements GrammarElement
 	{
 	    //Will not happen
 	}
-	System.out.println('"');
+	System.out.println('\'');
     }
     
 }

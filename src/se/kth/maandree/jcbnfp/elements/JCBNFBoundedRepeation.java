@@ -16,47 +16,50 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-package se.kth.maandree.jcbnfp;
+package se.kth.maandree.jcbnfp.elements;
+import se.kth.maandree.jcbnfp.*;
 
 
 /**
- * JCBNF grammar element: word string
+ * JCBNF grammar element: bounded repeation
  * 
  * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
  */
-public class JCBNFWordString implements GrammarElement
+public class JCBNFBoundedRepeation implements GrammarElement
 {
     /**
      * Constructor
      * 
-     * @param  def  The definition
-     * @param  off  The offset in the definition
-     * @param  end  A ref-array for then end of the definition
+     * @param  minCount  The minimum repeation count
+     * @param  maxCount  The maximum repeation count
      */
-    public JCBNFWordString(final int[] def, final int off, final int[] end)
+    public JCBNFBoundedRepeation(final int minCount, final int maxCount)
     {
-	final int[] str = new int[def.length - off];
-	int ptr = 0;
-	
-        for (int i = off;; i++)
-            if (def[i] == '\'')
-	    {
-		end[0] = i;
-		break;
-	    }
-	    else
-		str[ptr++] = def[i];
-	
-	this.string = new int[ptr];
-	System.arraycopy(str, 0, this.string, 0, ptr);
+	this.minCount = minCount;
+	this.maxCount = maxCount;
     }
     
     
     
     /**
-     * The string
+     * The minimum repeation count
      */
-    public final int[] string;
+    public final int minCount;
+    
+    /**
+     * The maximum repeation count
+     */
+    public final int maxCount;
+    
+    /**
+     * The option
+     */
+    public GrammarElement option = null;
+    
+    /**
+     * The repeation element
+     */
+    public GrammarElement element = null;
     
     
     
@@ -69,16 +72,16 @@ public class JCBNFWordString implements GrammarElement
     public void printGrammar(final String indent)
     {
 	System.out.print(indent);
-	System.out.print('\'');
-	try
+	System.out.println("{" + this.minCount + ".." + (this.maxCount < 0 ? "." : String.valueOf(this.maxCount)) + "}");
+	if (this.option != null)
 	{
-	    System.out.write(Escaper.escape(this.string));
+	    System.out.println(indent + "  OPTION");
+	    this.option.printGrammar(indent + "    ");
+	    System.out.println(indent + "  REPEAT");
+	    this.element.printGrammar(indent + "    ");
 	}
-	catch (final Throwable err)
-	{
-	    //Will not happen
-	}
-	System.out.println('\'');
+	else
+	    this.element.printGrammar(indent + "  ");
     }
     
 }
