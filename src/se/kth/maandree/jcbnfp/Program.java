@@ -97,7 +97,7 @@ public class Program
      * 
      * @param  definition  The definition
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static void printGrammar(final Definition definition)
     {
 	System.out.println("(:: " + definition.name + " ::)");

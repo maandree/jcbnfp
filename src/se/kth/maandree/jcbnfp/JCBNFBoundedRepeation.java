@@ -32,7 +32,6 @@ public class JCBNFBoundedRepeation implements GrammarElement
      * @param  minCount  The minimum repeation count
      * @param  maxCount  The maximum repeation count
      */
-    @SuppressWarnings("hiding")
     public JCBNFBoundedRepeation(final int minCount, final int maxCount)
     {
 	this.minCount = minCount;

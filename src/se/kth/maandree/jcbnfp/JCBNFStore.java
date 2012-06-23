@@ -31,7 +31,6 @@ public class JCBNFStore implements GrammarElement
      * 
      * @param  name  The name
      */
-    @SuppressWarnings("hiding")
     public JCBNFStore(final String name)
     {
 	this.name = name;

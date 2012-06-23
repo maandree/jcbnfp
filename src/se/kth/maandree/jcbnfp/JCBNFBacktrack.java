@@ -33,7 +33,6 @@ public class JCBNFBacktrack implements GrammarElement
      * @param  replacee  The replacee
      * @param  replacer  The replacer
      */
-    @SuppressWarnings("hiding")
     public JCBNFBacktrack(final String name, final String replacee, final String replacer)
     {
 	this.name     = name;
@@ -46,7 +45,6 @@ public class JCBNFBacktrack implements GrammarElement
      * 
      * @param  name  The name
      */
-    @SuppressWarnings("hiding")
     public JCBNFBacktrack(final String name)
     {
 	this(name, null, null);

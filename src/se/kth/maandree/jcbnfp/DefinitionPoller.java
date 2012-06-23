@@ -139,7 +139,6 @@ public class DefinitionPoller
 	 * @param  warnings    All warnings
 	 * @param  uniques     All unique warnings
 	 */
-	@SuppressWarnings("hiding")
 	public DefinitionSpace(final int[] name,                  final int nameLine,
 			       final ArrayList<int[]> definition, final ArrayList<Integer> definitionLines,
 			       final ArrayList<int[]> compiles,   final ArrayList<Integer> compilesLines,

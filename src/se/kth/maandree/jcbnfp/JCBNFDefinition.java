@@ -31,7 +31,6 @@ public class JCBNFDefinition implements GrammarElement
      * 
      * @param  name  The name
      */
-    @SuppressWarnings("hiding")
     public JCBNFDefinition(final String name)
     {
 	this.name = name;

@@ -19,7 +19,6 @@
 package se.kth.maandree.jcbnfp;
 
 import java.util.*;
-import java.io.*;
 
 
 /**

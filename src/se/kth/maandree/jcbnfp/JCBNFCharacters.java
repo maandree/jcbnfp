@@ -77,7 +77,6 @@ public abstract class JCBNFCharacters implements GrammarElement
 	 * 
 	 * @param  character  The character
 	 */
-	@SuppressWarnings("hiding")
 	public JCBNFCharacter(final int character)
 	{
 	    this.character = character;
@@ -99,7 +98,6 @@ public abstract class JCBNFCharacters implements GrammarElement
 	 * @return             Whether a character is contains by the set
 	 */
 	@Override
-	@SuppressWarnings("hiding")
 	public boolean contains(final int character)
 	{
 	    boolean rc = this.character == character;
@@ -142,7 +140,6 @@ public abstract class JCBNFCharacters implements GrammarElement
 	 * 
 	 * @param  set  The character class
 	 */
-	@SuppressWarnings("set")
 	public JCBNFCharacterClass(final Set set)
 	{
 	    this.set = set;
@@ -432,7 +429,6 @@ public abstract class JCBNFCharacters implements GrammarElement
 	 * 
 	 * @param  characters  The characters
 	 */
-	@SuppressWarnings("hiding")
 	public JCBNFCharacterGroup(final int[] characters)
 	{
 	    this.characters = characters;
@@ -503,7 +499,6 @@ public abstract class JCBNFCharacters implements GrammarElement
 	 * @param  min  The min character
 	 * @param  max  The max character
 	 */
-	@SuppressWarnings("hiding")
 	public JCBNFCharacterRange(final int min, final int max)
 	{
 	    this.min = min < max ? min : max;

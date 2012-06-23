@@ -18,9 +18,6 @@
  */
 package se.kth.maandree.jcbnfp;
 
-import java.util.*;
-import java.io.*;
-
 
 /**
  * JCBNF grammar element interface

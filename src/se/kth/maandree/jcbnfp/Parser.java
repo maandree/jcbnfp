@@ -116,7 +116,7 @@ public class Parser
 	 * 
 	 * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
 	 */
-	static class Return
+	class Return
 	{
 	    //Has default constructor
 	    
@@ -144,19 +144,19 @@ public class Parser
 	     * 
 	     * @param  obj  The object with which to concatenate
 	     */
-	    private static void cat(final Return obj)
+	    private void cat(final Return obj)
 	    {
 		{
 		    HashMap<String, ArrayList<int[]>> xx = this.storage;
 		    final HashMap<String, ArrayList<int[]>> xy = obj.storage;
 		    
-		    if (xx = null)
+		    if (xx == null)
 			this.storage = xy;
 		    else
 			for (final Map.Entry<String, ArrayList<int[]>> entry : xy.entrySet())
 			{
 			    final String key = entry.getKey();
-			    final ArrayList<int[]> values = entry.getValues();
+			    final ArrayList<int[]> values = entry.getValue();
 			    final ArrayList<int[]> vs;
 			    
 			    if ((vs = xx.get(key)) != null)
@@ -172,7 +172,7 @@ public class Parser
 		    for (final Map.Entry<String, int[]> entry : xy.entrySet())
 		    {
 			final String key = entry.getKey();
-			final int[] value = entry.getValues();
+			final int[] value = entry.getValue();
 			final int[] v;
 			
 			if ((v = xx.get(key)) != null)
@@ -195,9 +195,9 @@ public class Parser
 	 */
 	public int parse(final int[] data, final int off)
 	{
-	    @SuppressWarnings("unchecked")
+	    @SuppressWarnings({"rawtypes", "unchecked"})
 	    final HashMap<String, ArrayList<int[]>>[] storages = (HashMap<String, ArrayList<int[]>>[])(new HashMap[32]);
-	    @SuppressWarnings("unchecked")
+	    @SuppressWarnings({"rawtypes", "unchecked"})
 	    final HashMap<String, ArrayList<int[]>>[] reads = (HashMap<String, ArrayList<int[]>>[])(new HashMap[32]);
 	    final Return r = parse(data, off, this.definition.definition, storages, 0, reads, 0, 0);
 	    this.storage = r.storage;
@@ -310,17 +310,18 @@ public class Parser
 		                                                  // rather than parsed (complete) order; however storing effected by
 		return r;                                         // this choice [for example <a=x <a=y> z>] is strongly disencouraged.
 	    }
-	    if (grammar instanceof JCBNFBoundedRepeat) //TODO ###################################################################################### reads
+	    if (grammar instanceof JCBNFBoundedRepeation) //TODO ###################################################################################### reads
 	    {
 		Return r;
-		final int min = ((JCBNFBoundedRepeat)grammar).min;
-		final int max = ((JCBNFBoundedRepeat)grammar).max;
-		final GrammarElement g = ((JCBNFBoundedRepeat)grammar).element;
+		final int min = ((JCBNFBoundedRepeation)grammar).minCount;
+		final int max = ((JCBNFBoundedRepeation)grammar).maxCount;
+		final GrammarElement g = ((JCBNFBoundedRepeation)grammar).element;
 		HashMap<String, ArrayList<int[]>>[] nstorages = storages;
 		if (storagePtr == storages.length)
 		{
+		    @SuppressWarnings({"rawtypes", "unchecked"})
 		    final HashMap<String, ArrayList<int[]>>[] nnstorages = (HashMap<String, ArrayList<int[]>>[])(new HashMap[storagePtr << 1]);
-		    System.arraycopy(storages, 0, nnstorage, 0, storagePtr);
+		    System.arraycopy(storages, 0, nnstorages, 0, storagePtr);
 		    nstorages = nnstorages;
 		}
 		nstorages[storagePtr] = null;
@@ -361,8 +362,9 @@ public class Parser
 		HashMap<String, ArrayList<int[]>>[] nstorages = storages;
 		if (storagePtr == storages.length)
 		{
+		    @SuppressWarnings({"rawtypes", "unchecked"})
 		    final HashMap<String, ArrayList<int[]>>[] nnstorages = (HashMap<String, ArrayList<int[]>>[])(new HashMap[storagePtr << 1]);
-		    System.arraycopy(storages, 0, nnstorage, 0, storagePtr);
+		    System.arraycopy(storages, 0, nnstorages, 0, storagePtr);
 		    nstorages = nnstorages;
 		}
 		nstorages[storagePtr] = null;
@@ -372,7 +374,7 @@ public class Parser
 		{
 		    r = parse(data, offset, g, nstorages, storagePtr + 1, elementalState);
 		    if (r.read < 0)
-			return -1;
+			return null;
 		    offset += r.read;
 		    rc.cat(r);
 		    if (nstorages[storagePtr] == null)
@@ -415,7 +417,7 @@ public class Parser
 	 * @param   The string
 	 * @return  The integer array
 	 */
-	private static int[] stringToIntArray(final String string)
+	private int[] stringToIntArray(final String string)
 	{
 	    final int[] rcc = new int[string.length()];
 	    int ptr = 0;
@@ -455,7 +457,7 @@ public class Parser
 	 * @param   element  The grammar element
 	 * @return           The grammar element simplified
 	 */
-	private static GrammarElement assemble(final GrammarElement element)
+	private GrammarElement assemble(final GrammarElement element)
 	{
 	    GrammarElement elem = element;
 	    
@@ -465,12 +467,12 @@ public class Parser
 		else if (elem instanceof JCBNFOption)
 		{
 		    final JCBNFBoundedRepeation bndrep = new JCBNFBoundedRepeation(0, 1);
-		    bndrep.elements = elem;
+		    bndrep.element = elem;
 		    elem = bndrep;
 		}
 		else if (elem instanceof JCBNFRepeation)
 		{
-		    final JCBNFBoundedRepeation bndrep = JCBNFBoundedRepeation(1, -1);
+		    final JCBNFBoundedRepeation bndrep = new JCBNFBoundedRepeation(1, -1);
 		    bndrep.element = elem;
 		    elem = bndrep;
 		}
@@ -509,7 +511,7 @@ public class Parser
 	 * @param   end    The end of the stored data chunk, exclusive
 	 * @return         <code>-1</code> if it didn't pass, otherwise, the number of used characters
 	 */
-	private static int passes(final int[] data, final int off, final int start, final int end)
+	private int passes(final int[] data, final int off, final int start, final int end)
 	{
 	    final int n = end - start;
 	    
@@ -535,7 +537,7 @@ public class Parser
 	 * @param   replacer  The replacement replacer
 	 * @return            <code>-1</code> if it didn't pass, otherwise, the number of used characters
 	 */
-	private static int passes(final int[] data, final int off, final int start, final int end, final int[] replacee, final int[] replacer)
+	private int passes(final int[] data, final int off, final int start, final int end, final int[] replacee, final int[] replacer)
 	{
 	    final boolean[] preset = new boolean[256];
 	    final HashSet<Integer> set = new HashSet<Integer>();
@@ -553,7 +555,7 @@ public class Parser
 				continue outer;
 			
 			preset[j] = true;
-			set.add(new Integer[j]);
+			set.add(Integer.valueOf(j));
 			j += replacee.length;
 		    }
 	    
@@ -587,7 +589,7 @@ public class Parser
 	 * @return        <code>-1</code> if it didn't pass, <code>-2</code> if not atomary,
 	 *                otherwise, the number of used characters
 	 */
-	private static int passes(final int[] data, final int off, final GrammarElement def)
+	private int passes(final int[] data, final int off, final GrammarElement def)
 	{
 	    if (def == null)
 		return 0;

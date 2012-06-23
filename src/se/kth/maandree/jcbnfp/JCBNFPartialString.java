@@ -31,7 +31,6 @@ public class JCBNFPartialString implements GrammarElement
      * 
      * @param  string  The string
      */
-    @SuppressWarnings("hiding")
     public JCBNFPartialString(final int[] string)
     {
 	this.string = string;

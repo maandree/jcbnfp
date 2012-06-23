@@ -33,13 +33,11 @@ public class JCBNFString implements GrammarElement
      * @param  off  The offset in the definition
      * @param  end  A ref-array for then end of the definition
      */
-    @SuppressWarnings("hiding")
     public JCBNFString(final int[] def, final int off, final int[] end)
     {
 	final int[] str = new int[def.length - off];
 	int ptr = 0;
 	
-	int len = 0;
         for (int i = off;; i++)
             if (def[i] == '\"')
 	    {

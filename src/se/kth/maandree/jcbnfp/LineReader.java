@@ -82,7 +82,7 @@ public class LineReader
      */
     public int[] getNextLine(final InputStream is) throws IOException
     {
-	for (int d, c, i = 0; (d = is.read()) != -1; )
+	for (int d, c; (d = is.read()) != -1; )
 	{
 	    if (((c = getNextChar(d, is)) == -1) || ((last == '\r') && (c == '\n')))
 	    {

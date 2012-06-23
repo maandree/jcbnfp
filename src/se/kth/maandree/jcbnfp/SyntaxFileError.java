@@ -18,8 +18,6 @@
  */
 package se.kth.maandree.jcbnfp;
 
-import java.io.*;
-
 
 /**
  * This exception is thrown if the JCBNF file cannot be parsed
@@ -36,7 +34,6 @@ public class SyntaxFileError extends Exception
      * @param  lineIndex    The zero-based index of the line where the exception occured
      * @param  line         The content of the line where the exception occured
      */
-    @SuppressWarnings("hiding")
     public SyntaxFileError(final String description, final int lineIndex, final String line)
     {
 	super(description + " @ line " + (lineIndex + 1) + ": " + line);
