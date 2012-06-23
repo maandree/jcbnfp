@@ -26,7 +26,7 @@ import java.io.*;
  * 
  * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
  */
-public class LineReader
+class LineReader
 {
     /**
      * The default size of the buffer

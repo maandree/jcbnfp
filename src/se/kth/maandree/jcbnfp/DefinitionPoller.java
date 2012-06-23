@@ -27,7 +27,7 @@ import java.io.*;
  * 
  * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
  */
-public class DefinitionPoller
+class DefinitionPoller
 {
     //Has default constructor
     

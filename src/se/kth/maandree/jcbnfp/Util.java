@@ -24,7 +24,7 @@ package se.kth.maandree.jcbnfp;
  * 
  * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
  */
-public class Util
+class Util
 {
     /**
      * Forbidden constructor
