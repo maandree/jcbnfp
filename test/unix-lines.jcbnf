@@ -1,6 +1,6 @@
 main    ::= line [lines]
 N       ::= \n
 lines   ::= {N line}
-line    :: [content]
+line    ::= [content]
 content ::= {char}
 char    ::= $any ^ \n
