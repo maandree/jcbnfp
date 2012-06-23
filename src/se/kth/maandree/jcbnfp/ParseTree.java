@@ -117,7 +117,7 @@ public class ParseTree
 	 * 
 	 * @param  obj  The object with which to concatenate
 	 */
-	private void cat(final Return obj)
+	protected void cat(final Return obj)
 	{
 	    {
 		HashMap<String, ArrayList<int[]>> xx = this.storage;
