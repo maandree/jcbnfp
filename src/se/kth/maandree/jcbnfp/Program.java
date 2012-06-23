@@ -65,6 +65,8 @@ public class Program
 	catch (final SyntaxFileError err)
 	{
 	    System.err.println("ERROR: " + err.getMessage());
+	    if (err.getCause() != null)
+		err.getCause().printStackTrace(System.err);
 	}
 	catch (final RuntimeException err)
 	{

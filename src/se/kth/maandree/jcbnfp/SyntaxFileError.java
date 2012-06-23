@@ -36,7 +36,20 @@ public class SyntaxFileError extends Exception
      */
     public SyntaxFileError(final String description, final int lineIndex, final String line)
     {
-	super(description + " @ line " + (lineIndex + 1) + ": " + line);
+	this(description, lineIndex, line, null);
+    }
+    
+    /**
+     * Constructor
+     *
+     * @param  description  A description on the error
+     * @param  lineIndex    The zero-based index of the line where the exception occured
+     * @param  line         The content of the line where the exception occured
+     * @param  cause        The cause
+     */
+    public SyntaxFileError(final String description, final int lineIndex, final String line, final Throwable cause)
+    {
+	super(description + " @ line " + (lineIndex + 1) + ": " + line, cause);
 	
 	this.description = description;
 	this.lineIndex   = lineIndex;

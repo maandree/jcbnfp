@@ -60,83 +60,93 @@ public class GrammarParser
 	    final int nameLine = defspace.nameLine;
 	    final String lineName = poller.lineMap.get(new Integer(nameLine));
 	    poller.lineMap.remove(new Integer(nameLine));
-	    
-	    if ((name.length == 2) && (name[0] == '@') && (name[name.length - 1] == '@'))
-		throw new SyntaxFileError("Invalid definition name", nameLine, lineName);
-	    
-	    final int PREPENDIX = 1;
-	    final int APPENDIX = 2;
-	    int ats = 0;
-	    
-	    for (int i = 0, n = name.length; i < n; i++)
+	    try
 	    {
-		final int c = (int)(name[i] = (char)(defspace.name[i]));
-		if ((('a' > c) || (c > 'z')) && (('A' > c) || (c > 'Z')) && (c != '_'))
+		if ((name.length == 2) && (name[0] == '@') && (name[name.length - 1] == '@'))
+		    throw new SyntaxFileError("Invalid definition name", nameLine, lineName);
+		
+		final int PREPENDIX = 1;
+		final int APPENDIX = 2;
+		int ats = 0;
+		
+		for (int i = 0, n = name.length; i < n; i++)
 		{
-		    boolean ok = false;
-		    
-		    if ((c == '@') && ((i == 0) || (i + 1 == name.length)))
+		    final int c = (int)(name[i] = (char)(defspace.name[i]));
+		    if ((('a' > c) || (c > 'z')) && (('A' > c) || (c > 'Z')) && (c != '_'))
 		    {
-			ok = true;
-			ats |= i == 0 ? PREPENDIX : APPENDIX;
-			if (n == 1)
-			    ats = 0;
-		    }
-		    
-		    if (('0' <= c) && (c <= '9'))
-			if (i > (name[0] == '@' ? 2 : 1))
+			boolean ok = false;
+			
+			if ((c == '@') && ((i == 0) || (i + 1 == name.length)))
+			{
 			    ok = true;
+			    ats |= i == 0 ? PREPENDIX : APPENDIX;
+			    if (n == 1)
+				ats = 0;
+			}
 		    
-		    if (ok == false)
-			throw new SyntaxFileError("Invalid definition name", nameLine, lineName);
+			if (('0' <= c) && (c <= '9'))
+			    if (i > (name[0] == '@' ? 2 : 1))
+				ok = true;
+		    
+			if (ok == false)
+			    throw new SyntaxFileError("Invalid definition name", nameLine, lineName);
+		    }
 		}
+	    
+		final String zName = new String(name);
+		final String zzName = zName.substring(ats & PREPENDIX, zName.length() - ((ats & APPENDIX) >> 1));
+		if (definitions.get(zzName) != null)
+		    throw new SyntaxFileError("Already definied", nameLine, lineName);
+		
+		for (final Integer line : defspace.oopsLines)     poller.lineMap.remove(line);
+		for (final Integer line : defspace.panicLines)    poller.lineMap.remove(line);
+		for (final Integer line : defspace.warningLines)  poller.lineMap.remove(line);
+		for (final Integer line : defspace.uniqueLines)   poller.lineMap.remove(line);
+	    
+		int defsize = 0;
+		for (final int[] pdef : defspace.definition)
+		    defsize += pdef.length;
+	    
+		int compsize = 0;
+		for (final int[] pcomp : defspace.compiles)
+		    compsize += pcomp.length;
+	    
+		final int[] def = new int[defsize];
+		final int[] comp = new int[compsize];
+		int ptr;
+	    
+		ptr = 0;
+		for (final int[] pdef : defspace.definition)
+		{
+		    System.arraycopy(pdef, 0, def, ptr, pdef.length);
+		    ptr += pdef.length;
+		}
+		
+		ptr = 0;
+		for (final int[] pcomp : defspace.compiles)
+		{
+		    System.arraycopy(pcomp, 0, comp, ptr, pcomp.length);
+		    ptr += pcomp.length;
+		}
+		
+		defspace.definitionLines.clear();
+		defspace.compilesLines.clear();
+		
+		definitions.put(zzName, new Definition(zName, defspace.definition.size() == 0 ? null : def,
+						       defspace.compiles.size() == 0 ? null : comp,
+						       defspace.oopses, defspace.panics, defspace.warnings, defspace.uniques));
+		
+		defspace.definition.clear();
+		defspace.compiles.clear();
 	    }
-	    
-	    final String zName = new String(name);
-	    final String zzName = zName.substring(ats & PREPENDIX, zName.length() - ((ats & APPENDIX) >> 1));
-	    if (definitions.get(zzName) != null)
-		throw new SyntaxFileError("Already definied", nameLine, lineName);
-	    
-	    for (final Integer line : defspace.oopsLines)     poller.lineMap.remove(line);
-	    for (final Integer line : defspace.panicLines)    poller.lineMap.remove(line);
-	    for (final Integer line : defspace.warningLines)  poller.lineMap.remove(line);
-	    for (final Integer line : defspace.uniqueLines)   poller.lineMap.remove(line);
-	    
-	    int defsize = 0;
-	    for (final int[] pdef : defspace.definition)
-		defsize += pdef.length;
-	    
-	    int compsize = 0;
-	    for (final int[] pcomp : defspace.compiles)
-		compsize += pcomp.length;
-	    
-	    final int[] def = new int[defsize];
-	    final int[] comp = new int[compsize];
-	    int ptr;
-	    
-	    ptr = 0;
-	    for (final int[] pdef : defspace.definition)
+	    catch (final SyntaxFileError err)
 	    {
-		System.arraycopy(pdef, 0, def, ptr, pdef.length);
-		ptr += pdef.length;
+		throw err; //initial cause
 	    }
-	    
-	    ptr = 0;
-	    for (final int[] pcomp : defspace.compiles)
+	    catch (final Throwable err)
 	    {
-		System.arraycopy(pcomp, 0, comp, ptr, pcomp.length);
-		ptr += pcomp.length;
+		throw new SyntaxFileError("Unknown exception", nameLine, lineName, err);
 	    }
-	    
-	    defspace.definitionLines.clear();
-	    defspace.compilesLines.clear();
-	    
-	    definitions.put(zzName, new Definition(zName, defspace.definition.size() == 0 ? null : def,
-						   defspace.compiles.size() == 0 ? null : comp,
-						   defspace.oopses, defspace.panics, defspace.warnings, defspace.uniques));
-	    
-	    defspace.definition.clear();
-	    defspace.compiles.clear();
 	}
 	
 	return definitions;
