@@ -41,9 +41,7 @@ public class JCBNFAlternation implements GrammarElement
     
     
     /**
-     * Prints out the element
-     * 
-     * @param  indent  The current indent
+     * {@inheritDoc}
      */
     @Override
     public void printGrammar(final String indent)

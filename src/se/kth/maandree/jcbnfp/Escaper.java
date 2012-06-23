@@ -36,6 +36,12 @@ public class Escaper
     
     
     
+    /**
+     * Escapes special characters in a string so it may be viewed better
+     * 
+     * @param   plain  The string to escape
+     * @return         The string escaped
+     */
     public static String escape(final String plain)
     {
 	final char[] cs = new char[plain.length() << 1];
@@ -67,6 +73,13 @@ public class Escaper
 	return new String(cs, 0, ptr);
     }
     
+    
+    /**
+     * Escapes special characters in a string so it may be viewed better
+     * 
+     * @param   plain  The string to escape
+     * @return         The string escaped
+     */
     public static byte[] escape(final int... plain)
     {
 	final int[] buf = new int[6];

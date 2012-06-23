@@ -33,11 +33,7 @@ public enum JCBNFCheck implements GrammarElement
     A
     {
 	/**
-	 * Performs a checks
-	 *
-	 * @param   prev  The previous character, <code>-1</code> if at the beginning of the file
-	 * @param   next  The next character, <code>-1</code> if at the end of the file
-	 * @return        Whether the check passed
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean check(final int prev, final int next)
@@ -52,11 +48,7 @@ public enum JCBNFCheck implements GrammarElement
     Z
     {
 	/**
-	 * Performs a checks
-	 *
-	 * @param   prev  The previous character, <code>-1</code> if at the beginning of the file
-	 * @param   next  The next character, <code>-1</code> if at the end of the file
-	 * @return        Whether the check passed
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean check(final int prev, final int next)
@@ -71,11 +63,7 @@ public enum JCBNFCheck implements GrammarElement
     z
     {
 	/**
-	 * Performs a checks
-	 *
-	 * @param   prev  The previous character, <code>-1</code> if at the beginning of the file
-	 * @param   next  The next character, <code>-1</code> if at the end of the file
-	 * @return        Whether the check passed
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean check(final int prev, final int next)
@@ -91,11 +79,7 @@ public enum JCBNFCheck implements GrammarElement
     W
     {
 	/**
-	 * Performs a checks
-	 *
-	 * @param   prev  The previous character, <code>-1</code> if at the beginning of the file
-	 * @param   next  The next character, <code>-1</code> if at the end of the file
-	 * @return        Whether the check passed
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean check(final int prev, final int next)
@@ -126,11 +110,7 @@ public enum JCBNFCheck implements GrammarElement
     w
     {
 	/**
-	 * Performs a checks
-	 *
-	 * @param   prev  The previous character, <code>-1</code> if at the beginning of the file
-	 * @param   next  The next character, <code>-1</code> if at the end of the file
-	 * @return        Whether the check passed
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean check(final int prev, final int next)

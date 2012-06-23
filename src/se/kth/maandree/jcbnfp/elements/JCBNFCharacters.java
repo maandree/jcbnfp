@@ -53,9 +53,7 @@ public abstract class JCBNFCharacters implements GrammarElement
     
         
     /**
-     * Prints out the element
-     * 
-     * @param  indent  The current indent
+     * {@inheritDoc}
      */
     @Override
     public void printGrammar(final String indent)
@@ -93,10 +91,7 @@ public abstract class JCBNFCharacters implements GrammarElement
 	
 	
 	/**
-	 * Tests whether a character is contains by the set
-	 * 
-	 * @param   character  The character
-	 * @return             Whether a character is contains by the set
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean contains(final int character)
@@ -108,9 +103,7 @@ public abstract class JCBNFCharacters implements GrammarElement
     
         
 	/**
-	 * Prints out the element
-	 * 
-	 * @param  indent  The current indent
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void printGrammar(final String indent)
@@ -168,10 +161,7 @@ public abstract class JCBNFCharacters implements GrammarElement
 	    ANY
 	    {
 		/**
-		 * Tests whether a character is contains by the set
-		 * 
-		 * @param   character  The character
-		 * @return             Whether a character is contains by the set
+		 * {@inheritDoc}
 		 */
 		public boolean contains(final int character)
 		{
@@ -185,10 +175,7 @@ public abstract class JCBNFCharacters implements GrammarElement
 	    SUB
 	    {
 		/**
-		 * Tests whether a character is contains by the set
-		 * 
-		 * @param   character  The character
-		 * @return             Whether a character is contains by the set
+		 * {@inheritDoc}
 		 */
 		public boolean contains(final int character)
 		{
@@ -202,10 +189,7 @@ public abstract class JCBNFCharacters implements GrammarElement
 	    SUP
 	    {
 		/**
-		 * Tests whether a character is contains by the set
-		 * 
-		 * @param   character  The character
-		 * @return             Whether a character is contains by the set
+		 * {@inheritDoc}
 		 */
 		public boolean contains(final int character)
 		{
@@ -221,15 +205,12 @@ public abstract class JCBNFCharacters implements GrammarElement
 	    LETTER
 	    {
 		/**
-		 * Tests whether a character is contains by the set
-		 * 
-		 * @param   character  The character
-		 * @return             Whether a character is contains by the set
+		 * {@inheritDoc}
 		 */
 		public boolean contains(final int character)
 		{
 		    //Selected among [Letter] &a from http://www.unicode.org/reports/tr49/Categories.txt
-		    //Do notice have been taken to unassigned characters
+		    //No notice have been taken to unassigned characters
 		    
 		    //The use of the letters should decrease somewhat with ordinal, most significantly at the beginning,
 		    //so it is better to do a linear search than a binary or interpolation search.
@@ -287,10 +268,7 @@ public abstract class JCBNFCharacters implements GrammarElement
 	    LETTEROID
 	    {
 		/**
-		 * Tests whether a character is contains by the set
-		 * 
-		 * @param   character  The character
-		 * @return             Whether a character is contains by the set
+		 * {@inheritDoc}
 		 */
 		public boolean contains(final int character)
 		{
@@ -326,10 +304,7 @@ public abstract class JCBNFCharacters implements GrammarElement
 	    DIGIT
 	    {
 		/**
-		 * Tests whether a character is contains by the set
-		 * 
-		 * @param   character  The character
-		 * @return             Whether a character is contains by the set
+		 * {@inheritDoc}
 		 */
 		public boolean contains(final int character)
 		{
@@ -379,10 +354,7 @@ public abstract class JCBNFCharacters implements GrammarElement
 	
 	
 	/**
-	 * Tests whether a character is contains by the set
-	 * 
-	 * @param   character  The character
-	 * @return             Whether a character is contains by the set
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean contains(final int character)
@@ -392,9 +364,7 @@ public abstract class JCBNFCharacters implements GrammarElement
     
         
 	/**
-	 * Prints out the element
-	 * 
-	 * @param  indent  The current indent
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void printGrammar(final String indent)
@@ -445,10 +415,7 @@ public abstract class JCBNFCharacters implements GrammarElement
 	
 	
 	/**
-	 * Tests whether a character is contains by the set
-	 * 
-	 * @param   character  The character
-	 * @return             Whether a character is contains by the set
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean contains(final int character)
@@ -466,9 +433,7 @@ public abstract class JCBNFCharacters implements GrammarElement
     
         
 	/**
-	 * Prints out the element
-	 * 
-	 * @param  indent  The current indent
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void printGrammar(final String indent)
@@ -521,10 +486,7 @@ public abstract class JCBNFCharacters implements GrammarElement
 	
 	
 	/**
-	 * Tests whether a character is contains by the set
-	 * 
-	 * @param   character  The character
-	 * @return             Whether a character is contains by the set
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean contains(final int character)
@@ -536,9 +498,7 @@ public abstract class JCBNFCharacters implements GrammarElement
     
         
 	/**
-	 * Prints out the element
-	 * 
-	 * @param  indent  The current indent
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void printGrammar(final String indent)
