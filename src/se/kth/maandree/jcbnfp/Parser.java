@@ -61,7 +61,7 @@ public class Parser
      * 
      * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
      */
-    public class ParseTree
+    public static class ParseTree
     {
 	/**
 	 * Inside a bounded repeat clause, which can be assembled from repeat clauses
@@ -78,13 +78,15 @@ public class Parser
 	/**
 	 * Constructor
 	 * 
-	 * @param  parent      The parent node, <code>null</code> if none
-	 * @param  definition  The current definition, includes name, grammar &amp;c
+	 * @param  parent       The parent node, <code>null</code> if none
+	 * @param  definition   The current definition, includes name, grammar &amp;c
+	 * @param  definitions  Definition map
 	 */
-	public ParseTree(final ParseTree parent, final Definition definition)
+	public ParseTree(final ParseTree parent, final Definition definition, final HashMap<String, Definition> definitions)
 	{
 	    this.parent = parent;
 	    this.definition = definition;
+	    this.definitions = definitions;
 	}
 	
 	
@@ -109,6 +111,11 @@ public class Parser
 	 */
 	public HashMap<String, ArrayList<int[]>> storage = null;
 	
+	/**
+	 * Definition map
+	 */
+	public final HashMap<String, Definition> definitions;
+	
 	
 	
 	/**
@@ -116,7 +123,7 @@ public class Parser
 	 * 
 	 * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
 	 */
-	class Return
+	static class Return
 	{
 	    //Has default constructor
 	    
@@ -401,7 +408,7 @@ public class Parser
 	    if (grammar instanceof JCBNFDefinition)
 	    {
 		final String name = ((JCBNFDefinition)grammar).name;
-		final ParseTree child = new ParseTree(this, Parser.this.definitions.get(name));
+		final ParseTree child = new ParseTree(this, this.definitions.get(name), this.definitions);
 		this.children.add(child);
 		final int r = child.parse(data, off);
 		rc.read = r;
@@ -714,7 +721,7 @@ public class Parser
 		for (int i = 0; i < n; i++)
 		{
 		    final int v = is.read();
-		    if ((v & 0xC0) != x80)
+		    if ((v & 0xC0) != 0x80)
 			break;
 		    d = (d << 6) | (d & 0x3F);
 		}
@@ -740,7 +747,7 @@ public class Parser
 	
 	
 	final Definition root = this.definitions.get(this.main);
-	final ParseTree tree = new ParseTree(null, root);
+	final ParseTree tree = new ParseTree(null, root, this.definitions);
 	tree.parse(text, 0);
 	return tree;
     }
