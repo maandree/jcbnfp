@@ -149,6 +149,10 @@ public class Program
 	    System.err.println("\033[39m\"\033[35m");
 	    System.err.println(indent + "(:: " + node.definition.name + " ::)");
 	    node.definition.definition.printGrammar(indent + "::= ");
+	    for (final int[] warning : node.definition.warnings)
+		System.err.println("\033[33m" + indent + "w-- " + Util.intArrayToString(warning) + "\033[35m");
+	    for (final int[] warning : node.definition.uniques)
+		System.err.println("\033[33m" + indent + "w== " + Util.intArrayToString(warning) + "\033[35m");
 	    System.err.print("\033[39m");
 	    
 	    indent += "    ";
