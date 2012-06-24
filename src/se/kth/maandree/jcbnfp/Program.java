@@ -149,11 +149,14 @@ public class Program
 	    System.err.println("\033[39m\"\033[35m");
 	    System.err.println(indent + "(:: " + node.definition.name + " ::)");
 	    node.definition.definition.printGrammar(indent + "::= ");
-	    for (final int[] warning : node.definition.warnings)
-		System.err.println("\033[33m" + indent + "w-- " + Util.intArrayToString(warning) + "\033[35m");
-	    for (final int[] warning : node.definition.uniques)
-		System.err.println("\033[33m" + indent + "w== " + Util.intArrayToString(warning) + "\033[35m");
-	    System.err.print("\033[39m");
+	    System.err.print("\033[21;33m");
+	    for (final int[] warning : node.definition.warnings)  System.err.println(indent + "w-- " + Util.intArrayToString(warning));
+	    for (final int[] warning : node.definition.uniques)   System.err.println(indent + "w== " + Util.intArrayToString(warning));
+	    System.err.print("\033[31m");
+	    for (final int[] error : node.definition.oopses)      System.err.println(indent + "<-- " + Util.intArrayToString(warning));
+	    System.err.print("\033[1m");
+	    for (final int[] error : node.definition.panics)      System.err.println(indent + "<== " + Util.intArrayToString(warning));
+	    System.err.print("\033[21;39m");
 	    
 	    indent += "    ";
 	    
