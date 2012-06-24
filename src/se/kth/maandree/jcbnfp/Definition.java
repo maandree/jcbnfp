@@ -160,16 +160,8 @@ public class Definition
 	    }
 	    else if (c == '\\')
 	    {
-		GrammarElement elem = parseEscape(c = grammar[++i], grammar, i, ref);
+		elems.add(parseEscape(c = grammar[++i], grammar, i, ref));
 		i = ref[0];
-		if (alts.isEmpty() == false)
-		{
-		    final JCBNFJuxtaposition juxta = new JCBNFJuxtaposition();
-		    juxta.elements.addAll(elems);
-		    alts.add(juxta);
-		    elems.clear();
-		}
-		elems.add(elem);
 	    }
 	    else if ((c == '$') || (c == '@') || (c == '^'))
 	    {
