@@ -158,9 +158,9 @@ public class Program
 	    for (final int[] warning : node.definition.warnings)  System.err.println(indent + "w-- " + Util.intArrayToString(warning));
 	    for (final int[] warning : node.definition.uniques)   System.err.println(indent + "w== " + Util.intArrayToString(warning));
 	    System.err.print("\033[31m");
-	    for (final int[] error : node.definition.oopses)      System.err.println(indent + "<-- " + Util.intArrayToString(warning));
+	    for (final int[] error : node.definition.oopses)      System.err.println(indent + "<-- " + Util.intArrayToString(error));
 	    System.err.print("\033[1m");
-	    for (final int[] error : node.definition.panics)      System.err.println(indent + "<== " + Util.intArrayToString(warning));
+	    for (final int[] error : node.definition.panics)      System.err.println(indent + "<== " + Util.intArrayToString(error));
 	    System.err.print("\033[21;39m");
 	    
 	    indent += "    ";
