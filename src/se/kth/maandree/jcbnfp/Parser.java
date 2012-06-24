@@ -67,9 +67,10 @@ public class Parser
      * @param   is  The data stream to parse
      * @return      The tree with the result, describing the data
      * 
-     * @throws  IOException  On I/O exception
+     * @throws  IOException                    On I/O exception
+     * @throws  UndefiniedDefinitionException  If the JCBNF file is refering to an undefinied definition
      */
-    public ParseTree parse(final InputStream is) throws IOException
+    public ParseTree parse(final InputStream is) throws IOException, UndefiniedDefinitionException
     {
 	final int BUF_SIZE = 2048;
 	final ArrayList<int[]> bufs = new ArrayList<int[]>();
@@ -230,7 +231,7 @@ public class Parser
 		if (data[i + off] != grammar[i])
 		    return -1;
 	    
-	    return m;
+	    return n;
 	}
 	if (def instanceof JCBNFWordString)
 	{
@@ -257,7 +258,7 @@ public class Parser
 	    if (JCBNFCheck.w.check(prev, next) == false)
 		return -1;
 	    
-	    return m;
+	    return n;
 	}
 	if (def instanceof JCBNFPartialString)
 	{

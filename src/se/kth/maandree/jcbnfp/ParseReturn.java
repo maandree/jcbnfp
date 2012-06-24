@@ -62,7 +62,7 @@ class ParseReturn
 	    
 	    if (xx == null)
 		this.storage = xy;
-	    else
+	    else if (xy != null)
 		for (final Map.Entry<String, ArrayDeque<int[]>> entry : xy.entrySet())
 		{
 		    final String key = entry.getKey();

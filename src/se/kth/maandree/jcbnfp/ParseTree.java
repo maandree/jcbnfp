@@ -50,6 +50,7 @@ public class ParseTree
      */
     public ParseTree(final ParseTree parent, final Definition definition, final HashMap<String, Definition> definitions)
     {
+	assert definition != null;
 	this.parent = parent;
 	this.definition = definition;
 	this.definitions = definitions;
@@ -100,8 +101,10 @@ public class ParseTree
      * @param   data  The data
      * @param   off   The offset in the data
      * @return        The amount of read data
+     * 
+     * @throws  UndefiniedDefinitionException  If the JCBNF file is refering to an undefinied definition
      */
-    public int parse(final int[] data, final int off)
+    public int parse(final int[] data, final int off) throws UndefiniedDefinitionException
     {
 	@SuppressWarnings({"all", "unchecked", "rawtypes"}) // ecj finds [unchecked], openjdk finds [rawtypes] as well, [all] removed warning about "rawtypes" in ecj
 	final HashMap<String, ArrayDeque<int[]>>[] storages = (HashMap<String, ArrayDeque<int[]>>[])(new HashMap[32]);
@@ -171,9 +174,11 @@ public class ParseTree
      * @param   readPtr         Named capture read stack pointer
      * @param   elementalState  Grammar element state
      * @return                  Parsing subtree data
+     * 
+     * @throws  UndefiniedDefinitionException  If the JCBNF file is refering to an undefinied definition
      */
     private ParseReturn parse(final int[] data, final int off, final GrammarElement def, final HashMap<String, ArrayDeque<int[]>>[] storages,
-			      final int storagePtr, final HashMap<String, int[]>[] reads, final int readPtr, final byte elementalState)
+			      final int storagePtr, final HashMap<String, int[]>[] reads, final int readPtr, final byte elementalState) throws UndefiniedDefinitionException
     {
 	System.err.println("parsing: " + def);
 	ParseReturn rc = new ParseReturn();
@@ -306,7 +311,7 @@ public class ParseTree
 	    for (final GrammarElement g : ((JCBNFAlternation)grammar).elements)
 	    {
 		rc = parse(data, off, g, storages, storagePtr, reads, readPtr, elementalState);
-		if ((rc == null) || (rc.read >= 0))
+		if ((rc != null) && (rc.read >= 0))
 		    break;
 		rc = null;
 	    }
@@ -316,6 +321,8 @@ public class ParseTree
 	if (grammar instanceof JCBNFDefinition)
 	{
 	    final String name = ((JCBNFDefinition)grammar).name;
+	    if (this.definitions.get(name) == null)
+		throw new UndefiniedDefinitionException(name);
 	    final ParseTree child = new ParseTree(this, this.definitions.get(name), this.definitions);
 	    rc.read = child.parse(data, off);
 	    if (rc.read < 0)

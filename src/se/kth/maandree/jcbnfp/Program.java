@@ -81,6 +81,10 @@ public class Program
 	    if (err.getCause() != null)
 		err.getCause().printStackTrace(System.err);
 	}
+	catch (final UndefiniedDefinitionException err)
+	{
+	    System.err.println("ERROR: " + err.getMessage());
+	}
 	catch (final RuntimeException err)
 	{
 	    System.err.print("ERROR: ");
