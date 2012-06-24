@@ -51,7 +51,7 @@ public abstract class JCBNFCharacters implements GrammarElement
 	return true;
     }
     
-        
+    
     /**
      * {@inheritDoc}
      */
@@ -62,6 +62,20 @@ public abstract class JCBNFCharacters implements GrammarElement
 	    exception.printGrammar(indent + "  ");
     }
     
+     
+    /**
+     * {@inheritDoc}
+     */
+    public String toString()
+    {
+	final StringBuilder rc = new StringBuilder();
+	for (final JCBNFCharacters exception : this.exceptions)
+	{
+	    rc.append(" ^");
+	    rc.append(exception.toString());
+	}
+	return rc.toString();
+    }
     
     
     /**
@@ -119,6 +133,23 @@ public abstract class JCBNFCharacters implements GrammarElement
 	    }
 	    System.out.println('\'');
 	    super.printGrammar(indent);
+	}
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public String toString()
+	{
+	    try
+	    {
+		final String chr = new String(Escaper.escape(new int[] {this.character}), "UTF-8");
+		return (chr.charAt(0) == '\\' ? chr : ("'" + chr + "'")) + super.toString();
+	    }
+	    catch (final java.io.UnsupportedEncodingException err)
+	    {
+		throw new Error(err);
+	    }
 	}
     }
     
@@ -385,6 +416,25 @@ public abstract class JCBNFCharacters implements GrammarElement
 	    super.printGrammar(indent);
 	}
 	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public String toString()
+	{
+	    switch (this.set)
+	    {
+		case ANY:        return "$any" + super.toString();
+		case SUB:        return "$sub" + super.toString();
+		case SUP:        return "$sup" + super.toString();
+		case LETTER:     return "$letter" + super.toString();
+		case LETTEROID:  return "$letteroid" + super.toString();
+		case DIGIT:      return "$digit" + super.toString();
+		default:
+		    return "$?" + super.toString();
+	    }
+	}
+	
     }
     
 
@@ -449,6 +499,15 @@ public abstract class JCBNFCharacters implements GrammarElement
 	    }
 	    System.out.println('"');
 	    super.printGrammar(indent);
+	}
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public String toString()
+	{
+	    return "@\"" + Util.intArrayToString(this.characters) + '"' + super.toString();
 	}
     }
     
@@ -516,6 +575,15 @@ public abstract class JCBNFCharacters implements GrammarElement
 	    }
 	    System.out.println('\'');
 	    super.printGrammar(indent);
+	}
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public String toString()
+	{
+	    return "'" + Util.intArrayToString(this.min) + "'..'" + Util.intArrayToString(this.max) + "'" + super.toString();
 	}
     }
     

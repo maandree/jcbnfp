@@ -85,5 +85,16 @@ public class JCBNFBacktrack implements GrammarElement
 	}
     }
     
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String toString()
+    {
+	if ((this.replacee != null) && (this.replacer != null))
+	    return '<' + this.name + "|\"" + this.replacee + "\"|\"" + this.replacer + "\">";
+	return '<' + this.name + '>';
+    }
+    
 }
 

@@ -24,7 +24,7 @@ package se.kth.maandree.jcbnfp;
  * 
  * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
  */
-class Util
+public class Util
 {
     /**
      * Forbidden constructor
@@ -80,7 +80,7 @@ class Util
      * @param   ints  The int array
      * @return        The string
      */
-    public static String intArrayToString(final int[] ints)
+    public static String intArrayToString(final int... ints)
     {
 	int len = ints.length;
 	for (final int i : ints)

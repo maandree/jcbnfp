@@ -50,5 +50,14 @@ public class JCBNFGroup implements GrammarElement
 	    this.element.printGrammar(indent + "  ");
     }
     
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String toString()
+    {
+	return this.element == null ? "()" : ("(" + this.element.toString() + ")");
+    }
+    
 }
 

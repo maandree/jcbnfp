@@ -52,5 +52,20 @@ public class JCBNFJuxtaposition implements GrammarElement
 	    e.printGrammar(indent + "  ");
     }
     
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String toString()
+    {
+	final StringBuilder rc = new StringBuilder();
+	for (final GrammarElement element : this.elements)
+	{
+	    rc.append(" ");
+	    rc.append(element.toString());
+	}
+	return rc.toString().substring(1);
+    }
+    
 }
 

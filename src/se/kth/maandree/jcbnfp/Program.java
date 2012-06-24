@@ -166,37 +166,9 @@ public class Program
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static void printGrammar(final Definition definition)
     {
-	System.out.println("(:: " + definition.name + " ::)");
+	System.err.print(definition.toString());
 	
-	{
-	    final int[] buf = new int[6];
-	    final String[] preerr = {"<==", "<--", "w==", "w--", };
-	    final ArrayList[] errses = {definition.panics, definition.oopses, definition.uniques, definition.warnings, };
-	    
-	    for (final ArrayList<int[]> errs : errses)
-		for (final int[] err : errs)
-		{
-		    System.out.print(preerr + " ");
-		    for (final int c : err)
-			if (c < 128)
-			    System.out.write(c);
-			else
-			{
-			    int ptr = 0;
-			    int cc = c;
-			    while (cc >= 0x40)
-			    {
-				buf[ptr++] = (cc & 0x3F) | 128;
-				cc >>>= 6;
-			    }
-			    ptr++;
-			    buf[ptr - 1] = cc | (((1 << ptr) - 1) << (8 - ptr));
-			    while (--ptr >= 0)
-				System.out.write(buf[ptr]);
-			}
-		    System.out.println();
-		}
-	}
+	System.out.println("(:: " + definition.name + " ::)");
 	
 	if (definition.definition != null)
 	    definition.definition.printGrammar("::= ");

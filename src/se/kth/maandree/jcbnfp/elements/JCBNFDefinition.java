@@ -56,5 +56,14 @@ public class JCBNFDefinition implements GrammarElement
 	System.out.println(name + "()");
     }
     
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String toString()
+    {
+	return name;
+    }
+    
 }
 

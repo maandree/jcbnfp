@@ -161,14 +161,32 @@ public enum JCBNFCheck implements GrammarElement
     }
     
     
+    /**
+     * {@inheritDoc}
+     */
+    public String toString()
+    {
+	switch (this)
+	{
+	    case A:  return "\\A";
+	    case Z:  return "\\Z";
+	    case z:  return "\\z";
+	    case W:  return "\\W";
+	    case w:  return "\\w";
+	    default:
+		return "?";
+	}
+    }
+    
+    
     
     /**
      * The rules, <code>null</code> for default rules
      */
     public static WCheck rules = null;
-	
-	
-	
+    
+    
+    
     /**
      * Interface for your own rules
      */

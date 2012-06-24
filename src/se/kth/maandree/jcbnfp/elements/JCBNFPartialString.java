@@ -65,5 +65,14 @@ public class JCBNFPartialString implements GrammarElement
 	System.out.println("\"]]");
     }
     
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String toString()
+    {
+	return "[[\"" + Util.intArrayToString(this.string) + "\"]]";
+    }
+    
 }
 

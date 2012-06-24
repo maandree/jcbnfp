@@ -82,5 +82,14 @@ public class JCBNFBoundedRepeation implements GrammarElement
 	    this.element.printGrammar(indent + "  ");
     }
     
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String toString()
+    {
+	return "{" + this.minCount + ".." + (this.maxCount < 0 ? "." : String.valueOf(this.maxCount)) + (this.option == null ? "" : (":" + this.option.toString())) + '|' + this.element.toString() + '}';
+    }
+    
 }
 

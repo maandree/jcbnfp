@@ -63,5 +63,14 @@ public class JCBNFStore implements GrammarElement
 	    this.element.printGrammar(indent + "  ");
     }
     
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String toString()
+    {
+	return '<' + this.name + '=' + this.element.toString() + '>';
+    }
+    
 }
 

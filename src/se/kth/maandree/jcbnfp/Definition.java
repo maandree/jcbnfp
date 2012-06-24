@@ -230,7 +230,7 @@ public class Definition
 		final JCBNFGroup elem = new JCBNFGroup();
 		int s;
 		elem.element = parseGrammar(grammar, s = i + 1, ref);
-		i = ref[0];
+		i = ref[0] - 1;
 		elems.add(elem);
 		
 		if (elem.element instanceof JCBNFAlternation)
@@ -326,7 +326,7 @@ public class Definition
 	    {
 		final JCBNFRepeation elem = new JCBNFRepeation();
 		elem.element = parseGrammar(grammar, i + 1, ref);
-		i = ref[0];
+		i = ref[0] - 1;
 		elems.add(elem);
 	    }
 	    else if (c == '<')
@@ -354,7 +354,7 @@ public class Definition
 		    final JCBNFStore elem;
 		    elems.add(elem = new JCBNFStore(name));
 		    elem.element = parseGrammar(grammar, i + 1, ref);
-		    i = ref[0];
+		    i = ref[0] - 1;
 		}
 		else
 		{
@@ -483,6 +483,45 @@ public class Definition
 	}
 	ref[0] = i;
 	return new JCBNFCharacters.JCBNFCharacter(cc);
+    }
+    
+    
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings("unchecked")
+    public String toString()
+    {
+	final StringBuilder rc = new StringBuilder();
+	
+	rc.append(name);
+	rc.append("  ");
+	if (this.definition != null)
+	{
+	    rc.append("::=  ");
+	    rc.append(this.definition.toString());
+	    rc.append('\n');
+	}
+	if (this.compiles != null)
+	{
+	    rc.append("==>  ");
+	    rc.append(this.compiles.toString());
+	    rc.append('\n');
+	}
+	
+	final String[] preerrs = {"<==", "<--", "w==", "w--", };
+	final ArrayList[] errses = {this.panics, this.oopses, this.uniques, this.warnings, };
+	
+	for (int i = 0; i < 4; i++)
+	    for (final int[] err : (ArrayList<int[]>)(errses[i]))
+	    {
+		rc.append(preerrs[i]);
+		rc.append(' ');
+		rc.append(Util.intArrayToString(err));
+		rc.append('\n');
+	    }
+	
+	return rc.toString();
     }
     
 }
