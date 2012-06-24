@@ -132,20 +132,20 @@ public class Program
 	{
 	    String indent = indents.pollLast();
 	    
-	    System.out.print(indent);
-	    System.out.print(node.definition.definition);
-	    System.out.print(" :: (");
-	    System.out.print(node.intervalStart);
-	    System.out.print(", ");
-	    System.out.print(node.intervalEnd - node.intervalStart);
-	    System.out.print(", ");
-	    System.out.print(node.intervalEnd);
-	    System.out.print(")  \"\033[32m");
-	    System.out.write(Escaper.escape(data, node.intervalStart, node.intervalEnd - node.intervalStart));
-	    System.out.println("\033[39m\"\033[35m");
-	    System.out.println(indent + "(:: " + node.definition.name + " ::)");
+	    System.err.print(indent);
+	    System.err.print(node.definition.definition);
+	    System.err.print(" :: (");
+	    System.err.print(node.intervalStart);
+	    System.err.print(", ");
+	    System.err.print(node.intervalEnd - node.intervalStart);
+	    System.err.print(", ");
+	    System.err.print(node.intervalEnd);
+	    System.err.print(")  \"\033[32m");
+	    System.err.write(Escaper.escape(data, node.intervalStart, node.intervalEnd - node.intervalStart));
+	    System.err.println("\033[39m\"\033[35m");
+	    System.err.println(indent + "(:: " + node.definition.name + " ::)");
 	    node.definition.definition.printGrammar(indent + "::= ");
-	    System.out.print("\033[39m");
+	    System.err.print("\033[39m");
 	    
 	    indent += "    ";
 	    
