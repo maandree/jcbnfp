@@ -176,9 +176,9 @@ public class ParseTree
 			      final int storagePtr, final HashMap<String, int[]>[] reads, final int readPtr, final byte elementalState)
     {
 	System.err.println("parsing: " + def);
-	def.printGrammar("::=  ");
 	ParseReturn rc = new ParseReturn();
 	final GrammarElement grammar = Parser.assemble(def);
+	grammar.printGrammar("::>  ");
 	final int atom = Parser.passes(data, off, grammar);
 	
 	if (atom == -1) rc.read = -1;
