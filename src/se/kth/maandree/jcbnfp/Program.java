@@ -71,9 +71,14 @@ public class Program
 	    final ParseTree tree = parser.parse(fis);
 	    System.out.println("\n");
 	    
-	    System.out.println("--- Parsed code ---\n\n");
-	    printTree(tree, parser.data);
-	    System.out.println("\n");
+	    if (tree == null)
+		System.out.println("===### Grammar did not match ###===\n\n");
+	    else
+	    {
+		System.out.println("--- Parsed code ---\n\n");
+		printTree(tree, parser.data);
+		System.out.println("\n");
+	    }
 	}
 	catch (final SyntaxFileError err)
 	{

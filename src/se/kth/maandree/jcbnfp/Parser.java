@@ -65,7 +65,7 @@ public class Parser
      * Parses a stream and builds a tree of the result
      * 
      * @param   is  The data stream to parse
-     * @return      The tree with the result, describing the data
+     * @return      The tree with the result, describing the data, <code>null</code> if the gammar does not match
      * 
      * @throws  IOException                    On I/O exception
      * @throws  UndefiniedDefinitionException  If the JCBNF file is refering to an undefinied definition
@@ -120,7 +120,8 @@ public class Parser
 	
 	final Definition root = this.definitions.get(this.main);
 	final ParseTree tree = new ParseTree(null, root, this.definitions);
-	tree.parse(this.data = text, 0);
+	if (tree.parse(this.data = text, 0) < 0)
+	    return null;
 	return tree;
     }
     
