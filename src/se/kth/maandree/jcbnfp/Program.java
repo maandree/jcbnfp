@@ -47,6 +47,10 @@ public class Program
      */
     public static void main(final String... args)
     {
+	final PrintStream stderr = System.err;
+	final PrintStream stdout = System.out;
+	final PrintStream devNull = new PrintStream(new OutputStream() { public void write(int b) { /* do nothing */ } });
+	
 	final String jcbnfFile = args[0];
 	final String parseFile = args[1];
 	final String main      = args[2];
@@ -54,6 +58,9 @@ public class Program
 	InputStream gis = null, fis = null;
 	try
 	{
+	    System.setOut(devNull);
+	    System.setErr(devNull);
+	    
 	    System.out.println("--- Parsing Syntax ---\n\n");
 	    
 	    gis = new BufferedInputStream(new FileInputStream(new File(jcbnfFile)));
@@ -70,6 +77,9 @@ public class Program
 	    fis = new BufferedInputStream(new FileInputStream(new File(parseFile)));
 	    final ParseTree tree = parser.parse(fis);
 	    System.out.println("\n");
+	    
+	    System.setOut(stdout);
+	    System.setErr(stderr);
 	    
 	    if (tree == null)
 		System.out.println("===### Grammar did not match ###===\n\n");
