@@ -79,25 +79,24 @@ public class Parser
 	
 	for (int d; (d = is.read()) != -1;)
 	{
-	    if (d < 0x80)
-		buf[ptr++] = d;
-	    else if ((d & 0xC0) != 0x80)
+	    if ((d & 0xC0) == 0xC0)
 	    {
 		int n = 0;
-		while ((d & 0x80) != 0)
+		while ((d & 0x80) == 0x80)
 		{
 		    n++;
 		    d <<= 1;
 		}
 		d = (d & 255) >> n;
-		for (int i = 0; i < n; i++)
+		for (int i = 1; i < n; i++)
 		{
 		    final int v = is.read();
 		    if ((v & 0xC0) != 0x80)
 			break;
-		    d = (d << 6) | (d & 0x3F);
+		    d = (d << 6) | (v & 0x7F);
 		}
 	    }
+	    buf[ptr++] = d;
 	    
 	    if (ptr == BUF_SIZE)
 	    {

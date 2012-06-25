@@ -97,11 +97,11 @@ public class Util
 		chars[ptr++] = (char)i;
 	    else
 	    {
-		//0x10000 + (H - 0xD800) * 0x400 + (L - 0xDC00)
+		// 0x10000 + (H - 0xD800) * 0x400 + (L - 0xDC00)
 		
 		int c = i - 0x10000;
-		int L = (c % 0x400) + 0xDC00;
-		int H = (c / 0x400) + 0xD800;
+		int L = (c & 0x3FF) + 0xDC00;
+		int H = (c >>> 10) + 0xD800;
 		
 		chars[ptr++] = (char)H;
 		chars[ptr++] = (char)L;
