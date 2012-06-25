@@ -1,5 +1,7 @@
 main    ::= line [lines]
 N       ::= \n
 lines   ::= {N line}
-line    ::= [content]
+line    ::= [only | content]
+only    ::= "only"
+        <== line begins with "only"
 content ::= {$any ^ \n}

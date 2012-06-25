@@ -93,6 +93,11 @@ public class ParseTree
      */
     public int intervalEnd;
     
+    /**
+     * Whether a panic is thrown
+     */
+    public boolean paniced = false;
+    
     
     
     /**
@@ -118,6 +123,8 @@ public class ParseTree
 	
 	this.intervalStart = off;
 	this.intervalEnd = rc < 0 ? off : rc;
+	
+	this.paniced |= this.definition.panics.isEmpty() == false;
 	
 	return rc;
     }
@@ -261,6 +268,10 @@ public class ParseTree
 		if (nstorages[storagePtr] == null)
 		    nstorages[storagePtr] = rc.storage;
 	    }
+	    if (this.paniced)
+ 	    {   rc.read = offset;
+		return rc;
+	    }
 	    for (int i = min; i != max; i++) //infinity is -1, so 'i < max' would fail
 	    {
 		r = parse(data, offset, g, nstorages, storagePtr + 1, reads, readPtr, (byte)es);
@@ -270,6 +281,10 @@ public class ParseTree
 		rc.cat(r);
 		if (nstorages[storagePtr] == null)
 		    nstorages[storagePtr] = rc.storage;
+		if (this.paniced)
+		{   rc.read = offset;
+		    return rc;
+		}
 	    }
 	    
 	    rc.read = offset;
@@ -299,6 +314,10 @@ public class ParseTree
 		rc.cat(r);
 		if (nstorages[storagePtr] == null)
 		    nstorages[storagePtr] = rc.storage;
+		if (this.paniced)
+		{   rc.read = offset;
+		    return rc;
+		}
 	    }
 	    
 	    rc.read = offset;
@@ -310,7 +329,11 @@ public class ParseTree
 	    {
 		rc = parse(data, off, g, storages, storagePtr, reads, readPtr, elementalState);
 		if ((rc != null) && (rc.read >= 0))
+		{
+		    if (this.paniced)
+			return rc;
 		    break;
+		}
 		rc = null;
 	    }
 	    
@@ -325,6 +348,7 @@ public class ParseTree
 	    rc.read = child.parse(data, off);
 	    if (rc.read < 0)
 		return null;
+	    this.paniced |= child.paniced;
 	    this.children.add(child);
 	    return rc;
 	}
