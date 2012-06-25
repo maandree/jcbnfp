@@ -26,7 +26,6 @@ import java.io.*;
  * This is the main entry point of the program
  * 
  * @author   Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
- * @version  1.0
  */
 public class Program
 {
@@ -58,8 +57,8 @@ public class Program
 	InputStream gis = null, fis = null;
 	try
 	{
-	    System.setOut(devNull);
-	    System.setErr(devNull);
+	    //System.setOut(devNull);
+	    //System.setErr(devNull);
 	    
 	    System.out.println("--- Parsing Syntax ---\n\n");
 	    
