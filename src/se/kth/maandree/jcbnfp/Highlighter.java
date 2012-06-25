@@ -71,7 +71,7 @@ public class Highlighter
 	    if (tree == null)
 		System.out.println("===### Grammar did not match ###===\n\n");
 	    else
-		print(tree, parser.data);
+		print(tree, parser.data, new ArrayDeque<String>());
 	    System.out.flush();
 	}
 	catch (final SyntaxFileError err)
@@ -122,13 +122,19 @@ public class Highlighter
     }
     
     
-    public static void print(final ParseTree node, final int[] data)
+    public static void print(final ParseTree node, final int[] data, final ArrayDeque<String> colours)
     {
 	final String n = node.definition.name;
 	
-	if      (n.equals("shebang"))  System.out.print("\033[36m");
-	else if (n.equals("comment"))  System.out.print("\033[32m");
-	else if (n.equals("name"))     System.out.print("\033[33m");
+	if      (n.equals("shebang"))   colours.offerLast("\033[36m-\033[39m");
+	else if (n.equals("comment"))   colours.offerLast("\033[32m-\033[39m");
+	else if (n.equals("name"))      colours.offerLast("\033[33m-\033[39m");
+	else if (n.equals("juxta"))     colours.offerLast("\033[34m-\033[39m");
+	else if (n.equals("altern"))    colours.offerLast("\033[01m-\033[21m");
+	else
+	    colours.offerLast("\0-\0");
+	
+	System.out.print(colours.peekLast().split("-")[0].replace("\0", ""));
 	
 	{
 	    int s = node.intervalStart;
@@ -140,8 +146,9 @@ public class Highlighter
 		    System.arraycopy(data, s, dat, 0, dat.length);
 		    System.out.print(Util.intArrayToString(dat));
 		}
+		
 		s = child.intervalEnd;
-		print(child, data);
+		print(child, data, colours);
 	    }
 	    if (s < node.intervalEnd)
 	    {
@@ -151,10 +158,10 @@ public class Highlighter
 	    }
 	}
 	
-	if      (n.equals("shebang"))  System.out.print("\033[39m");
-	else if (n.equals("comment"))  System.out.print("\033[39m");
-	else if (n.equals("name"))     System.out.print("\033[39m");
-	else if (n.equals("jcbnf"))
+	System.out.print(colours.pollLast().split("-")[1].replace("\0", ""));
+	if (colours.isEmpty() == false)
+	    System.out.print(colours.peekLast().split("-")[0].replace("\0", ""));
+	else
 	{
 	    System.out.print("\033[1;30m");
 	    final int[] dat = new int[data.length - node.intervalEnd];
