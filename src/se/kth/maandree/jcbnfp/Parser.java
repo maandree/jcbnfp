@@ -221,11 +221,12 @@ public class Parser
 	if (def == null)
 	    return 0;
 	
+	final int m = data.length;
+	
 	if (def instanceof JCBNFString)
 	{
 	    final int[] grammar = ((JCBNFString)def).string;
 	    final int n = grammar.length;
-	    final int m = data.length;
 	    
 	    if (off + n >= m)
 		return -1;
@@ -239,14 +240,13 @@ public class Parser
 	if (def instanceof JCBNFWordString)
 	{
 	    final int[] grammar = ((JCBNFWordString)def).string;
-	    final int n = data.length;
-	    final int m = grammar.length;
+	    final int n = grammar.length;
 	    
 	    if (off + n >= m)
 		return -1;
 	    
 	    int prev = off >= 0 ? -1 : data[off - 1];
-	    int next = off >= n ? -1 : data[off];
+	    int next = off >= m ? -1 : data[off];
 	    
 	    if (JCBNFCheck.w.check(prev, next) == false)
 		return -1;
@@ -255,8 +255,8 @@ public class Parser
 		if (data[i + off] != grammar[i])
 		    return -1;
 	    
-	    prev = off + m >= 0 ? -1 : data[off + m - 1];
-	    next = off + m >= n ? -1 : data[off + m];
+	    prev = off + n >= 0 ? -1 : data[off + m - 1];
+	    next = off + n >= m ? -1 : data[off + m];
 	    
 	    if (JCBNFCheck.w.check(prev, next) == false)
 		return -1;
@@ -267,7 +267,6 @@ public class Parser
 	{
 	    final int[] grammar = ((JCBNFPartialString)def).string;
 	    final int n = grammar.length;
-	    final int m = data.length;
 	    
 	    if (n == 0)
 		return 0;
@@ -284,9 +283,8 @@ public class Parser
 	if (def instanceof JCBNFCharacters)
         {
 	    final JCBNFCharacters grammar = (JCBNFCharacters)def;
-	    final int n = data.length;
 	    
-	    if (off >= n)
+	    if (off >= m)
 		return -1;
 	    
 	    return grammar.contains(data[off]) ? 1 : -1;
@@ -294,10 +292,9 @@ public class Parser
 	if (def instanceof JCBNFCheck)
 	{
 	    final JCBNFCheck grammar = (JCBNFCheck)def;
-	    final int n = data.length;
 	    
 	    final int prev = off <= 0 ? -1 : data[off - 1];
-	    final int next = off >= n ? -1 : data[off];
+	    final int next = off >= m ? -1 : data[off];
 	    
 	    return grammar.check(prev, next) ? 0 : -1;
 	}
