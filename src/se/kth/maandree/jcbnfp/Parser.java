@@ -126,6 +126,9 @@ public class Parser
     }
     
     
+    //TODO public compile()
+    
+    
     /**
      * Tests whether the data can pass a stored data chunk
      * 

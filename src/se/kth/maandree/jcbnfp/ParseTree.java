@@ -98,6 +98,11 @@ public class ParseTree
      */
     public boolean paniced = false;
     
+    /**
+     * Whether this node or a child node is has a compile statement
+     */
+    public boolean compile = false;
+    
     
     
     /**
@@ -125,6 +130,7 @@ public class ParseTree
 	this.intervalEnd = rc < 0 ? off : rc;
 	
 	this.paniced |= this.definition.panics.isEmpty() == false;
+	this.compile |= this.definition.compiles != null;
 	
 	return rc;
     }
@@ -237,7 +243,7 @@ public class ParseTree
 	                                                      // rather than parsed (complete) order; however storing effected by
 	    return r;                                         // this choice [for example <a=x <a=y> z>] is strongly disencouraged.
 	}
-	if (grammar instanceof JCBNFBoundedRepeation)
+	if (grammar instanceof JCBNFBoundedRepeation) //TODO %reads
 	{
 	    ParseReturn r;
 	    final int min = ((JCBNFBoundedRepeation)grammar).minCount;
@@ -290,7 +296,7 @@ public class ParseTree
 	    rc.read = offset;
 	    return rc;
 	}
-	if (grammar instanceof JCBNFJuxtaposition)
+	if (grammar instanceof JCBNFJuxtaposition) //TODO %reads
 	{
 	    ParseReturn r;
 	    int offset = off;
@@ -349,6 +355,7 @@ public class ParseTree
 	    if (rc.read < 0)
 		return null;
 	    this.paniced |= child.paniced;
+	    this.compile |= child.compile;
 	    this.children.add(child);
 	    return rc;
 	}
@@ -356,6 +363,9 @@ public class ParseTree
 	assert false : "Unrecognised grammar used!";
 	return null;
     }
+    
+    
+    //TODO public compile()
     
 }
 
