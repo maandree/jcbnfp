@@ -71,7 +71,7 @@ public class ParseTree
     /**
      * The node's children
      */
-    public final ArrayList<ParseTree> children = new ArrayList<ParseTree>();
+    public ArrayList<ParseTree> children = new ArrayList<ParseTree>();
     
     /**
      * The subtree's named capture storage, may be <code>null</code>
@@ -188,8 +188,41 @@ public class ParseTree
      * 
      * @throws  UndefiniedDefinitionException  If the JCBNF file is refering to an undefinied definition
      */
+    @SuppressWarnings("unchecked")
     private ParseReturn parse(final int[] data, final int off, final GrammarElement def, final HashMap<String, ArrayDeque<int[]>>[] storages,
 			      final int storagePtr, final HashMap<String, int[]>[] reads, final int readPtr, final byte elementalState) throws UndefiniedDefinitionException
+    {
+	final ArrayList<ParseTree> _children = this.children == null ? null : (ArrayList<ParseTree>)(this.children.clone());
+	final HashMap<String, ArrayDeque<int[]>> _storage = this.storage == null ? null : (HashMap<String, ArrayDeque<int[]>>)(this.storage.clone());
+	
+	final ParseReturn rc = _parse(data, off, def, storages, storagePtr, reads, readPtr, elementalState);
+	
+	if (rc == null)
+	{
+	    this.children = _children;
+	    this.storage = _storage;
+	}
+	
+	return rc;
+    }
+    
+    /**
+     * Parses a subtree
+     * 
+     * @param   data            The data
+     * @param   off             The offset in the data
+     * @param   def             The grammar element to parse
+     * @param   storages        Named capture storage stack
+     * @param   storagePtr      Named capture storage stack pointer
+     * @param   reads           Named capture read stack
+     * @param   readPtr         Named capture read stack pointer
+     * @param   elementalState  Grammar element state
+     * @return                  Parsing subtree data
+     * 
+     * @throws  UndefiniedDefinitionException  If the JCBNF file is refering to an undefinied definition
+     */
+    private ParseReturn _parse(final int[] data, final int off, final GrammarElement def, final HashMap<String, ArrayDeque<int[]>>[] storages,
+			       final int storagePtr, final HashMap<String, int[]>[] reads, final int readPtr, final byte elementalState) throws UndefiniedDefinitionException
     {
 	System.err.println("parsing: " + def);
 	ParseReturn rc = new ParseReturn();

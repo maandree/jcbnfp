@@ -145,7 +145,6 @@ public class Highlighter
 		    final int[] dat = new int[child.intervalStart - s];
 		    System.arraycopy(data, s, dat, 0, dat.length);
 		    System.out.print(Util.intArrayToString(dat));
-		    //System.err.println("[" + s + ", " + (s + dat.length - 1) + "]");
 		}
 		
 		s = child.intervalEnd;
@@ -156,7 +155,6 @@ public class Highlighter
 		final int[] dat = new int[node.intervalEnd - s];
 		System.arraycopy(data, s, dat, 0, dat.length);
 		System.out.print(Util.intArrayToString(dat));
-		//System.err.println("[" + s + ", " + (s + dat.length - 1) + "]");
 	    }
 	}
 	
@@ -171,7 +169,6 @@ public class Highlighter
 	    final int[] dat = new int[data.length - node.intervalEnd];
 	    System.arraycopy(data, node.intervalEnd, dat, 0, dat.length);
 	    System.out.print(Util.intArrayToString(dat));
-	    //System.err.println("(" + node.intervalEnd + ", " + (node.intervalEnd + dat.length - 1) + ")");
 	    System.out.print("\033[21;39m");
 	}
     }

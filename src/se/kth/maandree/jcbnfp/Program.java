@@ -57,8 +57,8 @@ public class Program
 	InputStream gis = null, fis = null;
 	try
 	{
-	    //System.setOut(devNull);
-	    //System.setErr(devNull);
+	    System.setOut(devNull);
+	    System.setErr(devNull);
 	    
 	    System.out.println("--- Parsing Syntax ---\n\n");
 	    
