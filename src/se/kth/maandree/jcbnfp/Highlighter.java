@@ -130,15 +130,26 @@ public class Highlighter
 	else if (n.equals("comment"))  System.out.print("\033[32m");
 	else if (n.equals("name"))     System.out.print("\033[33m");
 	
-	if (node.children.isEmpty())
 	{
-	    final int[] dat = new int[node.intervalEnd - node.intervalStart];
-	    System.arraycopy(data, node.intervalStart, dat, 0, dat.length);
-	    System.out.print(Util.intArrayToString(dat));
-	}
-	else
+	    int s = node.intervalStart;
 	    for (final ParseTree child : node.children)
+	    {
+		if (s < child.intervalStart)
+		{
+		    final int[] dat = new int[child.intervalStart - s];
+		    System.arraycopy(data, s, dat, 0, dat.length);
+		    System.out.print(Util.intArrayToString(dat));
+		}
+		s = child.intervalEnd;
 		print(child, data);
+	    }
+	    if (s < node.intervalEnd)
+	    {
+		final int[] dat = new int[node.intervalEnd - s];
+		System.arraycopy(data, s, dat, 0, dat.length);
+		System.out.print(Util.intArrayToString(dat));
+	    }
+	}
 	
 	if      (n.equals("shebang"))  System.out.print("\033[39m");
 	else if (n.equals("comment"))  System.out.print("\033[39m");
