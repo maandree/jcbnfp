@@ -126,15 +126,15 @@ public class Highlighter
     {
 	final String n = node.definition.name;
 	
-	if      (n.equals("shebang"))   colours.offerLast("\033[36m-\033[39m");
-	else if (n.equals("comment"))   colours.offerLast("\033[32m-\033[39m");
-	else if (n.equals("name"))      colours.offerLast("\033[33m-\033[39m");
-	else if (n.equals("juxta"))     colours.offerLast("\033[34m-\033[39m");
-	else if (n.equals("altern"))    colours.offerLast("\033[01m-\033[21m");
+	if      (n.equals("shebang"))   colours.offerLast("\033[36m");
+	else if (n.equals("comment"))   colours.offerLast("\033[32m");
+	else if (n.equals("name"))      colours.offerLast("\033[33m");
+	else if (n.equals("juxta"))     colours.offerLast("\033[34m");
+	else if (n.equals("altern"))    colours.offerLast("\033[01m");
 	else
-	    colours.offerLast("\0-\0");
+	    colours.offerLast("");
 	
-	System.out.print(colours.peekLast().split("-")[0].replace("\0", ""));
+	System.out.print(colours.peekLast());
 	
 	{
 	    int s = node.intervalStart;
@@ -158,9 +158,11 @@ public class Highlighter
 	    }
 	}
 	
-	System.out.print(colours.pollLast().split("-")[1].replace("\0", ""));
+	System.out.print("\033[0m");
+	colours.pollLast();
 	if (colours.isEmpty() == false)
-	    System.out.print(colours.peekLast().split("-")[0].replace("\0", ""));
+	    for (final String c : colours)
+		System.out.print(c);
 	else
 	{
 	    System.out.print("\033[1;30m");
