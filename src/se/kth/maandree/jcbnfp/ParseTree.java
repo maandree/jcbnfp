@@ -145,15 +145,13 @@ public class ParseTree
 	    
 	    final HashMap<String, ArrayDeque<int[]>> map = this.storage;
 	    if (map == null)
-	    {
-		tree = tree.parent;
+	    {   tree = tree.parent;
 		continue;
 	    }
 	    
 	    final ArrayDeque<int[]> array = map.get(name);
 	    if (array == null)
-	    {
-		tree = tree.parent;
+	    {   tree = tree.parent;
 		continue;
 	    }
 	    
