@@ -163,7 +163,7 @@ public class Program
 	    System.err.write(Escaper.escape(data, node.intervalStart, node.intervalEnd - node.intervalStart));
 	    System.err.println("\033[39m\"\033[35m");
 	    System.err.println(indent + "(:: " + node.definition.name + " ::)");
-	    node.definition.definition.printGrammar(indent + "::= ");
+	    //node.definition.definition.printGrammar(indent + "::= ");
 	    System.err.print("\033[21;33m");
 	    for (final int[] warning : node.definition.warnings)  System.err.println(indent + "w-- " + Util.intArrayToString(warning));
 	    for (final int[] warning : node.definition.uniques)   System.err.println(indent + "w== " + Util.intArrayToString(warning));
