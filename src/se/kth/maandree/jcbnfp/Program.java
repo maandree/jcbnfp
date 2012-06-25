@@ -92,21 +92,29 @@ public class Program
 	}
 	catch (final SyntaxFileError err)
 	{
+	    System.setOut(stdout);
+	    System.setErr(stderr);
 	    System.err.println("ERROR: " + err.getMessage());
 	    if (err.getCause() != null)
 		err.getCause().printStackTrace(System.err);
 	}
 	catch (final UndefiniedDefinitionException err)
 	{
+	    System.setOut(stdout);
+	    System.setErr(stderr);
 	    System.err.println("ERROR: " + err.getMessage());
 	}
 	catch (final RuntimeException err)
 	{
+	    System.setOut(stdout);
+	    System.setErr(stderr);
 	    System.err.print("ERROR: ");
 	    err.printStackTrace(System.err);
 	}
 	catch (final Throwable err)
 	{
+	    System.setOut(stdout);
+	    System.setErr(stderr);
 	    System.err.println("---SYSTEM ERROR---");
 	    err.printStackTrace(System.err);
 	}

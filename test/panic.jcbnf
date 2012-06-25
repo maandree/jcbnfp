@@ -3,4 +3,5 @@ N       ::= \n
 lines   ::= {N line}
 line    ::= [only | content]
 only    ::= "only"
+        <== line begins with "only"
 content ::= {$any ^ \n}
