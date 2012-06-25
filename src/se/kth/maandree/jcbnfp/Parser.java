@@ -297,7 +297,7 @@ public class Parser
 	    final JCBNFCheck grammar = (JCBNFCheck)def;
 	    final int n = data.length;
 	    
-	    final int prev = off >= 0 ? -1 : data[off - 1];
+	    final int prev = off <= 0 ? -1 : data[off - 1];
 	    final int next = off >= n ? -1 : data[off];
 	    
 	    return grammar.check(prev, next) ? 0 : -1;
