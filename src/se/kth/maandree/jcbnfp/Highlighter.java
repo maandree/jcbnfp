@@ -126,9 +126,9 @@ public class Highlighter
     {
 	final String n = node.definition.name;
 	
-	// System.out.print("\033[0;36m" + n + "(\033[0m");
-	// for (final String c : colours)
-	//     System.out.print(c);
+	/**/System.out.print("\033[0;36m" + n + "(\033[0m");/**/
+	/**/for (final String c : colours)/**/
+	/**/    System.out.print(c);/**/
 	
 	if      (n.equals("shebang"))     colours.offerLast("\033[36m");
 	else if (n.equals("comment"))     colours.offerLast("\033[32m");
@@ -169,7 +169,7 @@ public class Highlighter
 	    }
 	}
 	
-	// System.out.print("\033[0;36m)");
+	/**/System.out.print("\033[0;36m)");/**/
 	System.out.print("\033[0m");
 	colours.pollLast();
 	if (colours.isEmpty() == false)
