@@ -126,12 +126,22 @@ public class Highlighter
     {
 	final String n = node.definition.name;
 	
-	if      (n.equals("shebang"))   colours.offerLast("\033[36m");
-	else if (n.equals("comment"))   colours.offerLast("\033[32m");
-	else if (n.equals("name"))      colours.offerLast("\033[4m");
-	else if (n.equals("juxta"))     colours.offerLast("\033[34m");
-	else if (n.equals("altern"))    colours.offerLast("\033[1m");
-	else if (n.equals("word"))      colours.offerLast("\033[33m");
+	// System.out.print("\033[0;36m" + n + "(\033[0m");
+	// for (final String c : colours)
+	//     System.out.print(c);
+	
+	if      (n.equals("shebang"))     colours.offerLast("\033[36m");
+	else if (n.equals("comment"))     colours.offerLast("\033[32m");
+	else if (n.equals("name"))        colours.offerLast("\033[4m");
+	else if (n.equals("juxta"))       colours.offerLast("\033[34m");
+	else if (n.equals("altern"))      colours.offerLast("\033[1m");
+	else if (n.equals("word"))        colours.offerLast("\033[33m");
+	else if (n.equals("N"))           colours.offerLast("\033[45m \033[D\033[49m");
+	else if (n.equals("W"))           colours.offerLast("\033[44m");
+	else if (n.equals("juxta"))       colours.offerLast("\033[34m");
+	else if (n.equals("str"))         colours.offerLast("\033[31m");
+	else if (n.equals("echr"))        colours.offerLast("\033[1;31m");
+	else if (n.equals("partialStr"))  colours.offerLast("\033[1;32m");
 	else
 	    colours.offerLast("");
 	
@@ -159,6 +169,7 @@ public class Highlighter
 	    }
 	}
 	
+	// System.out.print("\033[0;36m)");
 	System.out.print("\033[0m");
 	colours.pollLast();
 	if (colours.isEmpty() == false)
