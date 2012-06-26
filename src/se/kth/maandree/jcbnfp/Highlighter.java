@@ -128,9 +128,10 @@ public class Highlighter
 	
 	if      (n.equals("shebang"))   colours.offerLast("\033[36m");
 	else if (n.equals("comment"))   colours.offerLast("\033[32m");
-	else if (n.equals("name"))      colours.offerLast("\033[33m");
+	else if (n.equals("name"))      colours.offerLast("\033[4m");
 	else if (n.equals("juxta"))     colours.offerLast("\033[34m");
-	else if (n.equals("altern"))    colours.offerLast("\033[01m");
+	else if (n.equals("altern"))    colours.offerLast("\033[1m");
+	else if (n.equals("word"))      colours.offerLast("\033[33m");
 	else
 	    colours.offerLast("");
 	
