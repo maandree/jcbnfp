@@ -22,7 +22,7 @@ hasHome=0
 ## libraries
 jars=''
 if [ -d lib ]; then
-    jars=`echo $(find lib | grep .jar$) | sed -e 's/lib\//:/g' -e 's/ //g'`
+    jars=`echo $(find lib | grep .jar$) | sed -e 's/lib\//:lib\//g' -e 's/ //g'`
 fi
 
 
