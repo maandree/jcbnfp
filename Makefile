@@ -8,7 +8,7 @@ all:
 
 
 javadoc:
-	javadoc7 $(DOCLAGS) se.kth.maandree.jcbnfp $(find "./src" | grep '\.java$')
+	javadoc7 $(DOCLAGS) $$(find ./src/se/kth/maandree/jcbnfp -exec bash -c 'test -d "{}" && echo "{}"' \; | sed -e 's/\.\/src\///' | sed -e 's/\//\./g') $(find "./src" | grep '\.java$')
 
 
 clean:

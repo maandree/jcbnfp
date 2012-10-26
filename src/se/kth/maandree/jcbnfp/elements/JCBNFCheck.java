@@ -196,7 +196,6 @@ public enum JCBNFCheck implements GrammarElement
 	 * Performs a checks
 	 *
 	 * @param   prev  The previous character, <code>-1</code> if at the beginning of the filew
-	 * @param   next  The next character, <code>-1</code> if at the end of the file
 	 * @return        Whether the check passed
 	 */
 	public abstract boolean check(final int prev);
