@@ -19,3 +19,10 @@
 \#*\#
 .\#*
 
+
+##  temp files  ##
+##################
+
+jcbnfp.*
+jcbnfp.*/
+!jcbnfp.texinfo
