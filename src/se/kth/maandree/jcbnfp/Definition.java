@@ -435,7 +435,7 @@ public class Definition
      * @param   grammar  The grammar
      * @param   off      The beginning of the part to parse
      * @param   ref      A ref-array for the end of the parsed part
-     * @retrun           The element the escaped character represents, may be a check
+     * @return           The element the escaped character represents, may be a check
      */
     private GrammarElement parseEscape(final int c, final int[] grammar, final int off, final int[] ref)
     {

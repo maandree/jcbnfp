@@ -39,8 +39,8 @@ public class Util
     /**
      * Creates an UTF-32 integer array from an UTF-16 string
      * 
-     * @param   The string
-     * @return  The integer array
+     * @param   string  The string
+     * @return          The integer array
      */
     public static int[] stringToIntArray(final String string)
     {

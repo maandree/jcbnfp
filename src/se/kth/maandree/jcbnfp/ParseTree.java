@@ -144,7 +144,7 @@ public class ParseTree
      * @param   storagePtr      Named capture storage stack pointer
      * @param   reads           Named capture read stack
      * @param   readPtr         Named capture read stack pointer
-     * @parma   elementalState  Grammar element state
+     * @param   elementalState  Grammar element state
      * @return                  The capture's span, <code>null</code> if not found, otherwise, {start, end}
      */
     private int[] backtrack(final String name, final HashMap<String, ArrayDeque<int[]>>[] storages, final int storagePtr,
