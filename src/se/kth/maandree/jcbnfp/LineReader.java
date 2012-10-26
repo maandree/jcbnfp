@@ -22,7 +22,7 @@ import java.io.*;
 
 
 /**
- * This is the main entry point of the program
+ * Class for reading UTF-32 encoded lines from a stream
  * 
  * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
  */

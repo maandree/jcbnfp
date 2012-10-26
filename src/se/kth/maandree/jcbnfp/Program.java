@@ -23,7 +23,10 @@ import java.io.*;
 
 
 /**
- * This is the main entry point of the program
+ * <p>This is the main entry point of the program</p>
+ * <p>
+ *   This class is mainly used for testing and is not intended to be used by programs
+ * </p>
  * 
  * @author   Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
  */
