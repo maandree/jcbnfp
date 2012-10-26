@@ -153,7 +153,7 @@ class LineReader
      * Gets next character from a stream
      *
      * @param   d   An already read byte
-     * @param   is  Stream to poll additional bytes from if needed
+     * @param   is  Stream to pull additional bytes from if needed
      * @return      The ordinal value of the character, <code>-1</code> if not a character
      *
      * @throws  IOException  On I/O exception

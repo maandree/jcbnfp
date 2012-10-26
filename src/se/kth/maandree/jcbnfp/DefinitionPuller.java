@@ -23,11 +23,11 @@ import java.io.*;
 
 
 /**
- * Class for polling definitions from a stream
+ * Class for pulling definitions from a stream
  * 
  * @author  Mattias Andrée, <a href="mailto:maandree@kth.se">maandree@kth.se</a>
  */
-class DefinitionPoller
+class DefinitionPuller
 {
     //Has default constructor
     

@@ -1,4 +1,4 @@
-/**
+ol/**
  * jcbnfp — A parser for JCBNF (Jacky's Compilable BNF)
  * 
  * Copyright (C) 2012  Mattias Andrée <maandree@kth.se>
@@ -51,15 +51,15 @@ public class GrammarParser
     {
 	final HashMap<String, Definition> definitions = new HashMap<String, Definition>();
 	
-	DefinitionPoller.DefinitionSpace defspace;
-	final DefinitionPoller poller = new DefinitionPoller();
+	DefinitionPuller.DefinitionSpace defspace;
+	final DefinitionPuller puller = new DefinitionPuller();
 	
-	while ((defspace = poller.getNextDefinition(is)) != null)
+	while ((defspace = puller.getNextDefinition(is)) != null)
 	{
 	    final char[] name = new char[defspace.name.length];
 	    final int nameLine = defspace.nameLine;
-	    final String lineName = poller.lineMap.get(new Integer(nameLine));
-	    poller.lineMap.remove(new Integer(nameLine));
+	    final String lineName = puller.lineMap.get(new Integer(nameLine));
+	    puller.lineMap.remove(new Integer(nameLine));
 	    try
 	    {
 		if ((name.length == 2) && (name[0] == '@') && (name[name.length - 1] == '@'))
@@ -98,10 +98,10 @@ public class GrammarParser
 		if (definitions.get(zzName) != null)
 		    throw new SyntaxFileError("Already definied", nameLine, lineName);
 		
-		for (final Integer line : defspace.oopsLines)     poller.lineMap.remove(line);
-		for (final Integer line : defspace.panicLines)    poller.lineMap.remove(line);
-		for (final Integer line : defspace.warningLines)  poller.lineMap.remove(line);
-		for (final Integer line : defspace.uniqueLines)   poller.lineMap.remove(line);
+		for (final Integer line : defspace.oopsLines)     puller.lineMap.remove(line);
+		for (final Integer line : defspace.panicLines)    puller.lineMap.remove(line);
+		for (final Integer line : defspace.warningLines)  puller.lineMap.remove(line);
+		for (final Integer line : defspace.uniqueLines)   puller.lineMap.remove(line);
 	    
 		int defsize = 0;
 		for (final int[] pdef : defspace.definition)
