@@ -12,8 +12,8 @@ javadoc:
 
 
 clean:
-	if [ -d "./doc"         ]; then  rm -r "./bin"         ; fi
-	if [ -d "./doc/javadoc" ]; then  rm -r ".doc/javadoc"  ; fi
+	if [ -d "./bin"         ]; then  rm -r "./bin"          ; fi
+	if [ -d "./doc/javadoc" ]; then  rm -r "./doc/javadoc"  ; fi
 
 
 .PHONY: clean
