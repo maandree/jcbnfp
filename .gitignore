@@ -9,6 +9,7 @@
 
 /bin/
 *.class
+/doc/javadoc/
 
 
 ##  backup files  ##
