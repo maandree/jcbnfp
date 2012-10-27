@@ -1,0 +1,12 @@
+@cindex JCBNF
+@cindex license
+
+jcbnfp is a JCBNF parser library for Java, license under the terms of
+GNU General Public License version 3.
+
+JCBNF is a Backus–Naur Form inspired metasyntax designed for compilers, it should
+also be possible to use it for translators, porters and argument parsers.
+
+jcbnfp lets you create a data tree from a file using a JCBNF file as its syntax,
+the data tree can then be compiled, which may be used a partial compilation to
+simplify the process.

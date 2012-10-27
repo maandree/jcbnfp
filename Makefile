@@ -20,7 +20,7 @@ java:
 	./build.sh
 
 javadoc:
-	javadoc7 $(DOCLAGS) PACKAGES JAVAFILES
+	javadoc7 $(DOCLAGS) $(PACKAGES) $(JAVAFILES)
 
 
 clean:

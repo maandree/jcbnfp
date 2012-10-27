@@ -34,7 +34,7 @@ public class JCBNFAlternation implements GrammarElement
     
     
     /**
-     * The element
+     * The elements
      */
     public final Vector<GrammarElement> elements = new Vector<GrammarElement>();
     

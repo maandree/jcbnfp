@@ -1,0 +1,9 @@
+jcbnfp has two methods for testing @code{@value{PACKAGE}.Program.main(String...)} and
+@code{@value{PACKAGE}.Highlighter.main(String...)}, the first prints to stderr, and the
+later prints to stdout. Both in colour so you may want to pipe to @command{less -r}.
+
+@code{@value{PACKAGE}.Program} takes three command line arguments: the syntax file,
+the code file to parse, the root definition to use.
+
+@code{@value{PACKAGE}.Highlighter} takes one command line argument, the syntax file,
+which is then printed in colours to show how it is parsed.

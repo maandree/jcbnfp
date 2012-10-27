@@ -9,6 +9,7 @@
 @finalout
 @c %**end of header
 @set VERSION 0.3
+@set PACKAGE se.kth.maandree.jcbnfp
 
 @copying
 This manual is for jcbnfp
@@ -55,6 +56,7 @@ Texts. A copy of the license is included in the section entitled
 
 @menu
 * Overview::                            Brief overview of jcbnfp.
+* Testing::                             How to use jcbnfp for testing.
 * GNU Free Documentation License::      Copying and sharing this manual.
 * Concept index::                       Concept index.
 @end menu
@@ -65,13 +67,19 @@ Texts. A copy of the license is included in the section entitled
 @node Overview
 @chapter Overview
 @cindex overview
-...
+@include overview.texinfo
 
+
+@node Testing
+@chapter Testing
+@cindex testing
+@include testing.texinfo
 
 
 @node GNU Free Documentation License
 @appendix GNU Free Documentation License
 @include fdl.texinfo
+
 
 @node Concept index
 @appendix Concept index
