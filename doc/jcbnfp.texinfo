@@ -57,6 +57,8 @@ Texts. A copy of the license is included in the section entitled
 @menu
 * Overview::                            Brief overview of jcbnfp.
 * Testing::                             How to use jcbnfp for testing.
+* Text::                                How jcbnfp handles text.
+* Parsing::                             Parsing with jcbnfp.
 * GNU Free Documentation License::      Copying and sharing this manual.
 * Concept index::                       Concept index.
 @end menu
@@ -74,6 +76,20 @@ Texts. A copy of the license is included in the section entitled
 @chapter Testing
 @cindex testing
 @include testing.texinfo
+
+
+@node Text
+@chapter Text
+@cindex text
+@cindex strings
+@include text.texinfo
+
+
+@node Parsing
+@chapter Parsing
+@cindex parsing
+@include parsing.texinfo
+
 
 
 @node GNU Free Documentation License

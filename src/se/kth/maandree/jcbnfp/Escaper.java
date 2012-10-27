@@ -166,7 +166,6 @@ public class Escaper
 	System.arraycopy(prc, 0, rc, 0, rcp);
 	return rc;
     }
-
     
 }
 

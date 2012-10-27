@@ -1,0 +1,30 @@
+The class @code{@value{PACKAGE}.GrammarParser} contains one method,
+namely @code{parseGrammar(java.io.InputStream)}, this method is used
+parse the syntax file, and returns a map fron definition names to
+definition elements (the class @code{@value{PACKAGE}.Definition}).
+
+@code{@value{PACKAGE}.Definition} describes a definition, and thus
+contains the name and the syntax of the definition as well as its
+compilend, warnings and errors.
+
+@code{@value{PACKAGE}.Parser} is, then, the class used to parse a file
+with the loaded syntax, with the method @code{parse(java.io.InputStream)}.
+This class is instansiated with the definition map and the main
+definition. The main definition is the root of the parsing.
+
+@cindex panic
+@cindex compile
+The parsing returns a @code{@value{PACKAGE}.ParseTree} describing the
+data. A instance of @code{@value{PACKAGE}.ParseTree} is a node in the
+tree, navigation is done by the fields @code{children} and, if needed,
+@code{parent} (added for your convience). If the node or any of its
+children (any depth) is compileable, it will have the field @code{compile}
+set to @code{true}. If the node or any of its children (any depth)
+throws a panic, it will have the field @code{panic} set to @code{true}.
+Because a panic halts the parsing the cause will always be the bottom
+right node (leaf) if the tree is printed traditionally.
+
+Each node in the tree as an interval ([@code{intervalStart},
+@code{intervalEnd}[) that specifies which character interval the
+node spans. Finally, each node has a field named @code{definition} that
+specified the definition the node's spans in the code followes.
