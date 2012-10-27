@@ -1,7 +1,7 @@
-jcbnfp regulary uses @code{int[]} instead of Java's @code{String}, this is becuase
+jcbnfp regularly uses @code{int[]} instead of Java's @code{String}, this is because
 @code{String} is encoded in UTF-16 and using characters from plane 1 and above may
 be overlooked and makes good more complex. jcbnfp uses @code{String} only when safe
-and otherwises uses @code{int[]} where each element is one character, and every
+and otherwise uses @code{int[]} where each element is one character, and every
 character can be represented as an positive integer (UTF-32 encoding).
 
 The class @code{@value{PACKAGE}.Util} provides methods for converting between the

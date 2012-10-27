@@ -26,7 +26,12 @@ print:
 	cp "$(BOOK).pdf" "$(BOOK)+print.pdf"
 
 spell:
-	aspell --lang="$(LANG)" check "$(BOOK).texinfo"
+	(for file in $$(echo *.texinfo); do		\
+	   if [ ! "$$file" = "fdl.texinfo" ]; then	\
+	     aspell --lang="$(LANG)" check "$$file";	\
+	   fi						\
+	 done						\
+	)
 
 clean:
 	for ext in `echo aux cp cps fn ky log pg toc tp vr vrs op ops bak`; do       \
